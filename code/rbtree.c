@@ -131,7 +131,7 @@ void insertFixUp(struct node **root,struct node *z)
                 rightRotate(root,z->parent->parent);
             }
 
-            // Left-Right (LR) case, do following
+            // Left-Right (LR) case, do following            return;
             // (i)  Swap color of current node  and grandparent
             // (ii) Left Rotate Parent
             // (iii) Right Rotate Grand Parent
@@ -228,13 +228,33 @@ void inorder(struct node *root)
     inorder(root->right);
 }
 
+int check_valid_recur(struct node *c){
+  if(c == NULL){
+    return 0;
+  }
+  if(c->color == 'R'){
+    if(c->left != NULL && c->left->color == 'R'){
+      return -1;
+    } else if (c->right != NULL && c->right->color == 'R'){
+      return -1;
+    }
+  }
+  int l_val= check_valid_recur(c->left);
+  int r_val= check_valid_recur(c->right);
+
+  if(r_val == -1 || l_val == -1 || r_val != l_val){
+    return -1;
+  }
+  return l_val + (c->color == 'B');
+}
+
 /* Drier program to test above function*/
 int main()
 {
     // printf("Init");
     struct node *root = NULL;
 
-    // printf("Test");
+    // printf("Test");root
     int values[] = {10,20,40,30,50,35,25,37,34,46,7,6,44,23,12,45};
     // int values[] = {10,20};
     for(int i = 0; i < sizeof(values)/sizeof(int); i++){
@@ -251,6 +271,7 @@ int main()
     // insert(&root,37);
     printf("inorder Traversal Is : ");
     inorder(root);
+    printf("\nHeight of tree: %i\n", check_valid_recur(root));
 
     return 0;
 }
