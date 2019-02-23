@@ -1,52 +1,62 @@
-/* Task related code for CFS */
+/* Task related code for CFS
+  recent updates: tasks are generated in a while loop. functions that generate task,
+  increment virtual runtime, and pops a task that is complete are roughly implemented.
+
+  point of concerns:
+  1. would it be possible to pop tasks by freeing?
+  2. accessing specific tasks using functions to change variables within the task
+*/
 
 #include<stdio.h>
 #include<stdlib.h>
+#include "node.h"
+#include <time.h>
+#include <unistd.h>
 
-struct task{
-  int state; //not sure if this should be in type int. This variable tells whether task is running, sleeping, etc.
-  int priority;
-  struct sched_entity e; //this task sturct also contains sced_entity struct
-  cont struct sched_class *shced_class; //not sure about how to implement class in c, but I guess necessary functions are included in this class in some way
+struct node *tasks;
+
+/* fucntion for generating task to be processed */
+struct node* generate_task(){
+  struct node new_task;
+  struct node* new_task_ptr = (struct node*)malloc(sizeof(struct node));
+  new_task.lifetime = 10;
+  new_task.vtime = 0;
+  return new_task_ptr;
 }
 
-struct sched_entity{
-  struct node; // the node from rbtree.c
-  double vtime;
-  struct load-weight load; // So there should be a structre called load that includes information about weight, that is related to priorities of sched_entities.
+/* fucntion that increments virtual runtime of certain task if it is ran */
+void increment_vtime(struct node *run_task){
+  run_task -> vtime += 1;
 }
 
-struct node
+/* fucntion that pops a task that has run for longer than its lifetime */
+void check_runtime(struct node *check_task){
+  if(check_task -> vtime > check_task -> lifetime){
+    free(check_task);
+  }
+}
+
+int main()
 {
-    int pid;
-    double vtime;
-    double IO_use;
-    double priority;
-    //------Below are only useful for RB tree. Don't modify -----
-    char color;  // for color property
-    //links for left, right children and parent
-    struct node *left, *right, *parent;
-};
+    time_t end;
+    time_t start = time(NULL);
+    time_t seconds = 10; // end loop after this time has elapsed
 
-static void enqueue(struct cfs_rb, struct entity){
-  //add task
-}
+    end = start + seconds;
 
-static void dequeue(struct cfs_rb, struct entity){
-  //remove task
-}
+    printf("processing activated at %s", ctime(&start));
 
-static void pick_next_task(struct cfs_rb, struct entity){
-  //picks left-most node from rb_Tree and returns associated sched_entity
-}
+    while (start < end)
+    {
+        /* Do stuff while waiting */
+        sleep(1);   // sleep 1s.
+        start = time(NULL);
+        generate_task();
+        printf("task generated at time : %s", ctime(&start));
 
-static void put_prev_task(struct cfs_rb, struct entity){
-  //returns currently running task to rb_tree
-}
+    }
 
-static void check_preempt(struct cfs_rb, struct task new_task){
+    printf("end time is %s", ctime(&end));
 
-  //cfs_rb -> current_task -> sched_class -> check_preempt_curr(cfs_rb, new_task)
-  /* this function preempts current task and
-  replace with new_task after checking whether if it would be valid depending on vtime?*/
+    return 0;
 }
