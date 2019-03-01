@@ -4,6 +4,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 
+
 //A Red-Black tree node structure
 struct node
 {
