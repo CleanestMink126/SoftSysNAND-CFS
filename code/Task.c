@@ -11,8 +11,35 @@
 #include<stdlib.h>
 #include <time.h>
 #include <unistd.h>
+#include<math.h>
 #include "node.h"
 #define n 100
+
+double generate_Ndistribute_random(const double mean, const double stdDev) {
+  srand(time(0));
+	int hasSpare = 0;
+	static double spare;
+	if(hasSpare) {
+		hasSpare = 0;
+		return mean + stdDev * spare;
+	}
+
+	hasSpare = 1;
+	static double u, v, s;
+	do {
+		u = (rand() / ((double) RAND_MAX)) * 2.0 - 1.0;
+		v = (rand() / ((double) RAND_MAX)) * 2.0 - 1.0;
+		s = u * u + v * v;
+	}
+	while( (s >= 1.0) || (s == 0.0) );
+	s = sqrt(-2.0 * log(s) / s);
+	spare = v * s;
+  if (mean + stdDev * u * s<0){
+    return 0;
+  }else{
+    return mean + stdDev * u * s;
+  }
+}
 
 struct node tasks[n];
 
@@ -23,8 +50,8 @@ struct node generate_task(){
   new_task.state = 0;
   new_task.IO_use = 0;
   new_task.priority = 0;
-  new_task.lifetime = rand() % 30;
-  new_task.vtime = 0.0;
+  new_task.lifetime = generate_Ndistribute_random(15.0, 10.0);
+  new_task.vtime = generate_Ndistribute_random(15.0, 10.0);
   return new_task;
 }
 
@@ -66,24 +93,29 @@ int main()
 
     while (start < end)
     {
+        srand(time(0));
         /* Do stuff while waiting */
         sleep(1);   // sleep 1s.
         start = time(NULL);
-        printf("task generated at time : %s", ctime(&start));
-        struct node new;
-        new = generate_task();
-        add_task(tasks, new, num_of_tasks_ptr);
-        printf("lifetime: %is \n", new.lifetime);
-
-
+        int prob = rand() % 4;
+        if (prob == 0){
+          printf("task generated at time : %s", ctime(&start));
+          struct node new;
+          new = generate_task();
+          add_task(tasks, new, num_of_tasks_ptr);
+          printf("vtime: %fs \n", new.vtime);
+        }else{
+          puts("task not generated");
+        }
     }
 
     printf("end time is %s", ctime(&end));
     int i;
 
 /* print all tasks in que */
+    puts("vtime of generated tasks: \n");
     for(i = 0; i<*num_of_tasks_ptr; i++){
-      printf("lifetime of generated tasks: %is \n", tasks[i].lifetime);
+      printf( "%fs \n", tasks[i].vtime);
     }
 
     return 0;
