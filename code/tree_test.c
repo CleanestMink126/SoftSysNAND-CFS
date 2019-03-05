@@ -16,14 +16,16 @@ Color *make_color(double r, double b, double g){
   return c;
 }
 
-
+int FONT_SIZE = 13;
+int LOOP_WAIT = 500;
 int WINDOW_SIZE = 1500;
 int circle_height = 35;
 int count = 0;
-
-
+int curr_number = 0;
 
 static void do_drawing(cairo_t *, GtkWidget *);
+
+
 
 struct {
   gushort count;
@@ -61,10 +63,10 @@ static void do_drawing(cairo_t *cr, GtkWidget *widget) {
       CAIRO_FONT_SLANT_NORMAL,
       CAIRO_FONT_WEIGHT_BOLD);
 
-  cairo_set_font_size(cr, 13);
+  cairo_set_font_size(cr, FONT_SIZE);
 
   gint i = 0;
-  for (i = 0; i < glob.count; i++) {
+  for (i = 0; i < 5; i++) {
       cairo_set_line_width(cr, 3);
 
       // Circle
@@ -77,8 +79,15 @@ static void do_drawing(cairo_t *cr, GtkWidget *widget) {
 
       //Text
       cairo_set_source_rgb(cr, black->r, black->g, black->b);
-      cairo_show_text(cr, "40");
+      char str[10];
+      sprintf(str, "%d", curr_number);
+      cairo_show_text(cr, str);
       cairo_fill(cr);
+      cairo_translate(cr, 0, FONT_SIZE);
+      cairo_show_text(cr, "41");
+      cairo_translate(cr, 0, -FONT_SIZE);
+      cairo_fill(cr);
+      curr_number++;
 
       // drawing_recursive(cr, widget);
       // cairo_move_to(cr, 0.0, -10.0);
@@ -89,11 +98,13 @@ static void do_drawing(cairo_t *cr, GtkWidget *widget) {
   }
 }
 
-
+//Maybe run code here, update every glob, and sleep?
+//Or, more likely, update every 1000 globs
 static gboolean time_handler(GtkWidget *widget)
 {
   glob.count += 1;
   gtk_widget_queue_draw(widget);
+  // sleep(1);
 
   return TRUE;
 }
@@ -112,19 +123,17 @@ int main(int argc, char *argv[])
   darea = gtk_drawing_area_new();
   gtk_container_add(GTK_CONTAINER (window), darea);
 
-  g_signal_connect(G_OBJECT(darea), "draw",
-      G_CALLBACK(on_draw_event), NULL);
-  g_signal_connect(G_OBJECT(window), "destroy",
-      G_CALLBACK(gtk_main_quit), NULL);
+  g_signal_connect(G_OBJECT(darea), "draw", G_CALLBACK(on_draw_event), NULL);
+  g_signal_connect(G_OBJECT(window), "destroy", G_CALLBACK(gtk_main_quit), NULL);
 
   gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
   gtk_window_set_default_size(GTK_WINDOW(window), WINDOW_SIZE, WINDOW_SIZE);
   gtk_window_set_title(GTK_WINDOW(window), "Waiting demo");
 
-  g_timeout_add(100, (GSourceFunc) time_handler, (gpointer) window);
+  g_timeout_add(LOOP_WAIT, (GSourceFunc) time_handler, (gpointer) window);
   gtk_widget_show_all(window);
 
   gtk_main();
-
+  printf("Sup?");
   return 0;
 }
