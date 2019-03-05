@@ -2,47 +2,52 @@
 
 int main()
 {
-    test_funtctionality();
-    struct node tasks[MAX_TASKS];
     time_t end;
     time_t start = time(NULL);
     time_t seconds = 10; // end loop after this time has elapsed
+    struct timespec tim;
+    tim.tv_sec = 0;
+    tim.tv_nsec = 100000000L;
 
     end = start + seconds;
 
     printf("processing activated at %s", ctime(&start));
 
-    int *num_of_tasks_ptr;
     int num_of_tasks = 0;
-    num_of_tasks_ptr = &num_of_tasks;
-    //*num_of_tasks = 0;
-    //struct node new;
+    struct node *root = NULL;
+    struct node *min = NULL;
+    struct node* n;
+    //-----------Insert values------------
+    int values[] = {10,20,40,30,50,35,25,37,34,46,7,6,44,23,56,67,1000,2,3,230,20,23,12,45};
+    int len = sizeof(values)/sizeof(len);
+    srand(time(NULL));
 
     while (start < end)
     {
-        srand(time(0));
         /* Do stuff while waiting */
-        sleep(1);   // sleep 1s.
+        nanosleep(&tim,NULL);   // sleep 1s.
         start = time(NULL);
+        printf("%i\n",rand());
         int prob = rand() % 4;
-        if (prob == 0){
-          printf("task generated at time : %s", ctime(&start));
-          struct node new;
-          new = generate_task();
-          add_task(tasks, new, num_of_tasks_ptr);
-          printf("vtime: %fs \n", new.vtime);
+        if (prob == 0 && num_of_tasks < len){
+          // printf("task generated at time : %s", ctime(&start));
+          n = generate_task(num_of_tasks);
+          n->vtime = (double) values[num_of_tasks];
+          insert(&root, &min, n);
+          printf("vtime: %fs \n", n->vtime);
+          num_of_tasks++;
         }else{
-          puts("task not generated");
+          puts("task not generated\n");
         }
     }
 
     printf("end time is %s", ctime(&end));
-    int i;
 
 /* print all tasks in que */
     puts("vtime of generated tasks: \n");
-    for(i = 0; i<*num_of_tasks_ptr; i++){
-      printf( "%fs \n", tasks[i].vtime);
+    for(int i = 0; i<num_of_tasks; i++){
+      n = delete_min(&root, &min);
+      printf( "%fs \n", n->vtime);
     }
 
     return 0;

@@ -22,7 +22,7 @@ struct node
 //Definitions for tasks.c
 #define MAX_TASKS 100
 double generate_Ndistribute_random(const double mean, const double stdDev);
-struct node generate_task();
+struct node* generate_task(int num_tasks);
 void add_task(struct node *p, struct node a, int * num_tasks);
 void increment_vtime(struct node *run_task);
 void check_runtime(struct node *check_task);

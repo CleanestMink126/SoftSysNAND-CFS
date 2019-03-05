@@ -9,7 +9,7 @@
 #include "all.h"
 
 double generate_Ndistribute_random(const double mean, const double stdDev) {
-  srand(time(0));
+
 	int hasSpare = 0;
 	static double spare;
 	if(hasSpare) {
@@ -34,14 +34,14 @@ double generate_Ndistribute_random(const double mean, const double stdDev) {
   }
 }
 /* fucntion for generating tastruct node generate_task(){sk to be processed */
-struct node generate_task(){
-  struct node new_task;
-  new_task.pid = 0;
-  new_task.state = 0;
-  new_task.IO_use = 0;
-  new_task.priority = 0;
-  new_task.lifetime = generate_Ndistribute_random(15.0, 10.0);
-  new_task.vtime = generate_Ndistribute_random(15.0, 10.0);
+struct node* generate_task(int num_tasks){
+  struct node* new_task = (struct node*)malloc(sizeof(struct node));;
+  new_task->pid = num_tasks;
+  new_task->state = 0;
+  new_task->IO_use = 0;
+  new_task->priority = 0;
+  new_task->lifetime = generate_Ndistribute_random(15.0, 10.0);
+  new_task->vtime = generate_Ndistribute_random(15.0, 10.0);
   return new_task;
 }
 
