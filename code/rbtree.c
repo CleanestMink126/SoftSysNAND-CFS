@@ -1,22 +1,6 @@
 // C program for Red-Black Tree insertion
 //Adapted from https://gist.github.com/VictorGarritano/5f894be162d39e9bdd5c
-
-#include<stdio.h>
-#include<stdlib.h>
-
-
-//A Red-Black tree node structure
-struct node
-{
-    int pid;
-    double vtime;
-    double IO_use;
-    double priority;
-    //------Below are only useful for RB tree. Don't modify -----
-    char color;  // for color property
-    //links for left, right children and parent
-    struct node *left, *right, *parent;
-};
+#include "all.h"
 
 void print_node(struct node *n){
   if(n->parent != NULL){
@@ -216,7 +200,8 @@ void inorder(struct node *root)
     printf("%f%c ", root->vtime,root->color);
     inorder(root->right);
 }
-
+//--------------------------------------------------
+//All my code from now on
 /*
 This function will recursively check the validity of a RB tree through black
 node distance and no red parent-children.
@@ -326,7 +311,7 @@ struct node* delete_min(struct node **root, struct node **min){
 }
 
 /* Drier program to test above function*/
-int main()
+int test_funtctionality()
 {
     struct node *root = NULL;
     struct node *min = NULL;
