@@ -1,5 +1,6 @@
 #include "all.h"
 #include "vis.h"
+
 //TODO: pop out into separate file
 typedef struct {
   double r;
