@@ -94,6 +94,8 @@ static void do_drawing(cairo_t *cr, GtkWidget *widget) {
       CAIRO_FONT_WEIGHT_BOLD);
   cairo_set_font_size(cr, FONT_SIZE);
   cairo_set_line_width(cr, LINE_WIDTH);
+  cairo_set_source_rgb (cr, WHITE->r, WHITE->g, WHITE->b);
+  cairo_paint (cr);
 
   drawing_recursive(cr, widget, temp);
 }
@@ -115,6 +117,7 @@ int main(int argc, char *argv[])
   GtkWidget *darea;
   RED = make_color(0.69, 0.19, 0.0);
   BLACK = make_color(0.0, 0.0, 0.0);
+  WHITE = make_color(1.0, 1.0, 1.0);
   ROOT = build_tree();
 
   glob.count = 0;
