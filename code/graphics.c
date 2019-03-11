@@ -20,9 +20,9 @@ static gboolean on_draw_event(GtkWidget *widget, cairo_t *cr, gpointer user_data
 
 static void drawing_recursive(cairo_t *cr, GtkWidget *widget, struct node* root){
   GtkWidget *win = gtk_widget_get_toplevel(widget);
-  // cairo_translate(cr, CIRCLE_HEIGHT, CIRCLE_HEIGHT);
   int color;
-  print_node(root);
+
+  // print_node(root);
   if(root->color == 'R'){
     color = 1;
     cairo_set_source_rgb(cr, RED->r, RED->g, RED->b);
@@ -36,40 +36,40 @@ static void drawing_recursive(cairo_t *cr, GtkWidget *widget, struct node* root)
   cairo_stroke_preserve(cr);
   cairo_fill(cr);
 
+
   if(color == 1){
     cairo_set_source_rgb(cr, BLACK->r, BLACK->g, BLACK->b);
   }
   else {
     cairo_set_source_rgb(cr, RED->r, RED->g, RED->b);
   }
-  char id[10];
-  char vtime[10];
-  sprintf(id, "%d", root->pid);
-  sprintf(vtime, "%.1f", root->vtime);
+  char id[7] = "";
+  char vtime[7] = "";
+  snprintf(id, sizeof(id), "%d", root->pid);
+  snprintf(vtime, sizeof(vtime), "%.1f", root->vtime);
+
   cairo_translate(cr, -0.5*CIRCLE_HEIGHT, 0);
   cairo_show_text(cr, id);
   cairo_fill(cr);
-  // cairo_translate(cr, 0.5*CIRCLE_HEIGHT, 0);
 
   cairo_translate(cr, 0, FONT_SIZE);
   cairo_show_text(cr, vtime);
-  cairo_translate(cr, 0, -FONT_SIZE);
   cairo_fill(cr);
+  cairo_translate(cr, 0, -FONT_SIZE);
   cairo_translate(cr, 0.5*CIRCLE_HEIGHT, 0);
 
   if(root->left != NULL){
     cairo_translate(cr, (int) CIRCLE_HEIGHT * -1.5, (int) CIRCLE_HEIGHT * 1.5);
-    printf("Left child.\n");
+    // printf("Left child.\n");
     drawing_recursive(cr, widget, root->left);
     cairo_translate(cr, (int) CIRCLE_HEIGHT * 1.5, (int) CIRCLE_HEIGHT * -1.5);
   }
 
   if(root->right != NULL){
     cairo_translate(cr, (int) CIRCLE_HEIGHT * 1.5, (int) CIRCLE_HEIGHT * 1.5);
-    printf("right child.\n");
+    // printf("right child.\n");
     drawing_recursive(cr, widget, root->right);
     cairo_translate(cr, (int) CIRCLE_HEIGHT * -1.5, (int) CIRCLE_HEIGHT * -1.5);
-
   }
 
 }
@@ -96,41 +96,6 @@ static void do_drawing(cairo_t *cr, GtkWidget *widget) {
   cairo_set_line_width(cr, LINE_WIDTH);
 
   drawing_recursive(cr, widget, temp);
-  // sleep(100);
-
-  // gint i = 0;
-  //
-  // for (i = 0; i < 5; i++) {
-  //     cairo_set_line_width(cr, 3);
-  //     drawing_recursive(cr, widget, ROOT);
-  //
-  //     // Circle
-  //     cairo_set_source_rgb(cr, RED->r, RED->g, RED->b);
-  //     cairo_translate(cr, (int) CIRCLE_HEIGHT * 1.5, (int) CIRCLE_HEIGHT * 1.5);
-  //     cairo_arc(cr, 0, 0, CIRCLE_HEIGHT, 0, 2 * M_PI);
-  //     cairo_stroke_preserve(cr);
-  //
-  //     cairo_fill(cr);
-  //
-  //     //Text
-  //     cairo_set_source_rgb(cr, BLACK->r, BLACK->g, BLACK->b);
-  //     char str[10];
-  //     sprintf(str, "%d", curr_number);
-  //     cairo_show_text(cr, str);
-  //     cairo_fill(cr);
-  //     cairo_translate(cr, 0, FONT_SIZE);
-  //     cairo_show_text(cr, "41");
-  //     cairo_translate(cr, 0, -FONT_SIZE);
-  //     cairo_fill(cr);
-  //     curr_number++;
-  //
-  //     // drawing_recursive(cr, widget);
-  //     // cairo_move_to(cr, 0.0, -10.0);
-  //     // cairo_line_to(cr, 0.0, -40.0);
-  //     // cairo_rotate(cr, M_PI/4);
-  //     //
-  //     // cairo_stroke(cr);
-  // }
 }
 
 //Maybe run code here, update every glob, and sleep?
@@ -139,13 +104,13 @@ static gboolean time_handler(GtkWidget *widget)
 {
   glob.count += 1;
   gtk_widget_queue_draw(widget);
-  // sleep(1);
 
   return TRUE;
 }
 
 int main(int argc, char *argv[])
 {
+
   GtkWidget *window;
   GtkWidget *darea;
   RED = make_color(0.69, 0.19, 0.0);
@@ -166,7 +131,7 @@ int main(int argc, char *argv[])
 
   gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
   gtk_window_set_default_size(GTK_WINDOW(window), WINDOW_SIZE, WINDOW_SIZE);
-  gtk_window_set_title(GTK_WINDOW(window), "Waiting demo");
+  gtk_window_set_title(GTK_WINDOW(window), "RB Tree Demo");
 
   g_timeout_add(LOOP_WAIT, (GSourceFunc) time_handler, (gpointer) window);
   gtk_widget_show_all(window);

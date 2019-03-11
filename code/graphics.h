@@ -15,10 +15,10 @@ struct {
   gushort count;
 } glob;
 
-int FONT_SIZE = 13;
+int FONT_SIZE = 15;
 int LOOP_WAIT = 5000;
 int WINDOW_SIZE = 1500;
-int CIRCLE_HEIGHT = 35;
+int CIRCLE_HEIGHT = 45;
 int LINE_WIDTH = 3;
 Color* RED;
 Color* BLACK;
