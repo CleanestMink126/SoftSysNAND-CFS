@@ -340,3 +340,20 @@ int test_funtctionality()
     }
     return 0;
 }
+
+/* Drier program to test above function*/
+struct node* build_tree()
+{
+    struct node *root = NULL;
+    struct node *min = NULL;
+    struct node* n;
+    //-----------Insert values------------
+    int values[] = {10,20,40,30,50,35,25,37,34,46,7,6,44,23,56,67,1000,2,3,230,20,23,12,45};
+    for(int i = 0; i < sizeof(values)/sizeof(int); i++){
+      n = (struct node*)malloc(sizeof(struct node));
+      n->vtime = (double) values[i];
+      insert(&root, &min, n);
+    }
+
+    return root;
+}

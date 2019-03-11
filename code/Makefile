@@ -1,7 +1,7 @@
 all: main tree_test
 
 tree_test: all.h
-	gcc `pkg-config --cflags gtk+-3.0` -o tree_test tree_test.c `pkg-config --libs gtk+-3.0`
+	gcc `pkg-config --cflags gtk+-3.0` -o graphics graphics.c rbtree.o `pkg-config --libs gtk+-3.0`
 
 main: task.o rbtree.o main.c all.h
 	gcc task.o rbtree.o main.c -o main -lm
