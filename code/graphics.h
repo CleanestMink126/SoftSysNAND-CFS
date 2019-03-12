@@ -17,7 +17,7 @@ struct {
 
 int FONT_SIZE = 12;
 int LOOP_WAIT = 5000;
-int WINDOW_SIZE = 2000;
+int WINDOW_SIZE = 1600;
 int CIRCLE_HEIGHT = 25;
 int LINE_WIDTH = 3;
 Color* RED;

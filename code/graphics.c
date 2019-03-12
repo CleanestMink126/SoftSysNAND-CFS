@@ -51,34 +51,53 @@ static void drawing_recursive(cairo_t *cr, GtkWidget *widget, struct node* root)
   snprintf(vtime, sizeof(vtime), "%.1f", root->vtime);
 
   cairo_translate(cr, -0.5*CIRCLE_HEIGHT, 0);
+  // cairo_move_to(cr, curr_x - 0.5*CIRCLE_HEIGHT, curr_y);
   cairo_show_text(cr, id);
   cairo_fill(cr);
 
   cairo_translate(cr, 0, FONT_SIZE);
+  // cairo_move_to(cr, curr_x - 0.5*CIRCLE_HEIGHT, curr_y - FONT_SIZE);
   cairo_show_text(cr, vtime);
   cairo_fill(cr);
-  cairo_translate(cr, 0, -FONT_SIZE);
-  cairo_translate(cr, 0.5*CIRCLE_HEIGHT, 0);
+  // cairo_move_to(cr, curr_x, curr_y);
+  cairo_translate(cr,  0.5*CIRCLE_HEIGHT, -FONT_SIZE);
+  // cairo_translate(cr, 0.5*CIRCLE_HEIGHT, 0);
 
   if(root->left != NULL){
     curr_x = curr_x / 2;
+    curr_y = curr_y - 1.5*CIRCLE_HEIGHT;
+    // cairo_fill (cr);
+    // cairo_set_source_rgb (cr, 0, 1, 0);
+    // cairo_stroke (cr);
+    // cairo_set_line_width (cr, 2);
+    // cairo_line_to(cr, 10000, 10000);
+    // cairo_stroke(cr);
+    // cairo_fill(cr);
+    //
 
     cairo_translate(cr, (int) -curr_x, (int) CIRCLE_HEIGHT * 1.5);
+    // cairo_move_to(cr, curr_x, curr_y);
     // printf("Left child.\n");
     drawing_recursive(cr, widget, root->left);
 
     cairo_translate(cr, (int) curr_x, (int) CIRCLE_HEIGHT * -1.5);
     curr_x = curr_x * 2;
+    curr_y = curr_y + 1.5*CIRCLE_HEIGHT;
+    // cairo_move_to(cr, curr_x, curr_y);
   }
 
   if(root->right != NULL){
     curr_x = curr_x / 2;
+    curr_y = curr_y - 1.5*CIRCLE_HEIGHT;
     cairo_translate(cr, (int) curr_x, (int) CIRCLE_HEIGHT * 1.5);
+    // cairo_move_to(cr, curr_x, curr_y);
     // printf("right child.\n");
     drawing_recursive(cr, widget, root->right);
 
     cairo_translate(cr, (int) -curr_x, (int) CIRCLE_HEIGHT * -1.5);
     curr_x = curr_x * 2;
+    curr_y = curr_y + 1.5*CIRCLE_HEIGHT;
+    // cairo_move_to(cr, curr_x, curr_y);
   }
 
 }
@@ -100,6 +119,7 @@ static void do_drawing(cairo_t *cr, GtkWidget *widget) {
   curr_y = CIRCLE_HEIGHT*3;
 
   cairo_translate(cr, curr_x, curr_y);
+  // cairo_move_to(cr, curr_x, curr_y);
   cairo_select_font_face(cr, "Purisa",
       CAIRO_FONT_SLANT_NORMAL,
       CAIRO_FONT_WEIGHT_BOLD);
