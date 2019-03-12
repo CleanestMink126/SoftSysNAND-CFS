@@ -3,6 +3,8 @@
 
 int count = 0;
 int curr_number = 0;
+double curr_x = 0;
+double curr_y = 0;
 
 Color *make_color(double r, double b, double g){
   Color *c = malloc(sizeof(Color));
@@ -59,17 +61,24 @@ static void drawing_recursive(cairo_t *cr, GtkWidget *widget, struct node* root)
   cairo_translate(cr, 0.5*CIRCLE_HEIGHT, 0);
 
   if(root->left != NULL){
-    cairo_translate(cr, (int) CIRCLE_HEIGHT * -1.5, (int) CIRCLE_HEIGHT * 1.5);
+    curr_x = curr_x / 2;
+
+    cairo_translate(cr, (int) -curr_x, (int) CIRCLE_HEIGHT * 1.5);
     // printf("Left child.\n");
     drawing_recursive(cr, widget, root->left);
-    cairo_translate(cr, (int) CIRCLE_HEIGHT * 1.5, (int) CIRCLE_HEIGHT * -1.5);
+
+    cairo_translate(cr, (int) curr_x, (int) CIRCLE_HEIGHT * -1.5);
+    curr_x = curr_x * 2;
   }
 
   if(root->right != NULL){
-    cairo_translate(cr, (int) CIRCLE_HEIGHT * 1.5, (int) CIRCLE_HEIGHT * 1.5);
+    curr_x = curr_x / 2;
+    cairo_translate(cr, (int) curr_x, (int) CIRCLE_HEIGHT * 1.5);
     // printf("right child.\n");
     drawing_recursive(cr, widget, root->right);
-    cairo_translate(cr, (int) CIRCLE_HEIGHT * -1.5, (int) CIRCLE_HEIGHT * -1.5);
+
+    cairo_translate(cr, (int) -curr_x, (int) CIRCLE_HEIGHT * -1.5);
+    curr_x = curr_x * 2;
   }
 
 }
@@ -87,8 +96,10 @@ static void do_drawing(cairo_t *cr, GtkWidget *widget) {
   gint width, height;
   gtk_window_get_size(GTK_WINDOW(win), &width, &height);
 
-  cairo_translate(cr, width/2, CIRCLE_HEIGHT*5);
+  curr_x = width/2;
+  curr_y = CIRCLE_HEIGHT*3;
 
+  cairo_translate(cr, curr_x, curr_y);
   cairo_select_font_face(cr, "Purisa",
       CAIRO_FONT_SLANT_NORMAL,
       CAIRO_FONT_WEIGHT_BOLD);

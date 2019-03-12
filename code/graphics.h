@@ -15,13 +15,14 @@ struct {
   gushort count;
 } glob;
 
-int FONT_SIZE = 15;
+int FONT_SIZE = 12;
 int LOOP_WAIT = 5000;
-int WINDOW_SIZE = 1500;
-int CIRCLE_HEIGHT = 45;
+int WINDOW_SIZE = 2000;
+int CIRCLE_HEIGHT = 25;
 int LINE_WIDTH = 3;
 Color* RED;
 Color* BLACK;
+Color* WHITE;
 struct node *ROOT;
 
 Color *make_color(double r, double b, double g);
