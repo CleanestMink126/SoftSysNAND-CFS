@@ -35,5 +35,6 @@ void inorder(struct node *root);
 int check_valid_recur(struct node *c);
 struct node* delete_min(struct node **root, struct node **min);
 int test_funtctionality();
+struct node* build_tree();
 //Definitions for visualization
 //TODO

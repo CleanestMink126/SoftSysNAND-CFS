@@ -8,15 +8,15 @@ The goal of our project is to make a simplified version of the Linux Scheduler a
 
 ## Learning Goals
 Through working on this project, we as a collective have a few main goals, with individual goals varying. These goals are:
-- Understand the C language better.
+- **Understand the C language better.**
  - We understand that we haven’t had an incredibly large amount of time to learn the C language, especially as most of our first in-depth exposure has come from Software Systems. Therefore, this project gives us an opportunity to better understand the language outside of the perspective of problem sets.
-- Practice C programming
+- **Practice C programming**
  - Similar to understanding the C language better, we want to practice C programming and the different conventions that differ from other languages we know, especially Java and Python. Through making a nontrivial project from scratch, we are hoping to solidify more of the C standards of programming and to become more accustomed to coding in C.
-- Understand better how schedulers work
+- **Understand better how schedulers work**
  - Something the three of us were curious about was how scheduling works in operating systems, as we know that processes all get different amounts of time to process data and that not all processes actually run simultaneously on the hardware. Therefore, we have begun understanding how schedulers actually work in order to implement one.
-- Understanding how red/black tree algorithm optimizes work done by the CPU
+- **Understanding how red/black tree algorithm optimizes work done by the CPU**
  - In understanding schedulers, we learned that the C language implements its scheduler through a red-black tree. Therefore, we need to understand what a red/black tree is. Nick Steelman already was very well acquainted with the topic as a Data Structures and Algorithms instructor who had given the lecture on red/black trees, and he used his knowledge to help the other two understand red/black trees.
-- Practice Visualization and learn Visualization in C
+- **Practice Visualization and learn Visualization in C**
  - The final (stretch) goal of the project was to practice visualization of software and to learn how to visualize in C. Visualization is done of the completed Red/Black tree, and is completed using GTK and the cairo library. As none of us have experience in visualization in C, we performed a lot of research figuring out how to accomplish what we wanted and are in the process of combining our visualization knowledge with the red/black tree data structure we created.
 
 ## Progress
