@@ -28,13 +28,13 @@ int main()
         nanosleep(&tim,NULL);   // sleep 1s.
         start = time(NULL);
         printf("%i\n",rand());
-        int prob = rand() % 4;
+        int prob = rand() % 4; 
         if (prob == 0 && num_of_tasks < len){
           // printf("task generated at time : %s", ctime(&start));
           n = generate_task(num_of_tasks);
           n->vtime = (double) values[num_of_tasks];
           insert(&root, &min, n);
-          printf("vtime: %fs \n", n->vtime);
+          printf("lifetime: %f \n", n->lifetime);
           num_of_tasks++;
         }else{
           puts("task not generated\n");
@@ -44,7 +44,7 @@ int main()
     printf("end time is %s", ctime(&end));
 
 /* print all tasks in que */
-    puts("vtime of generated tasks: \n");
+    puts("lifetime of generated tasks: \n");
     for(int i = 0; i<num_of_tasks; i++){
       n = delete_min(&root, &min);
       printf( "%fs \n", n->vtime);
