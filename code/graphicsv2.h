@@ -1,9 +1,9 @@
-#include "all.h"
 #include <cairo.h>
 #include <gtk/gtk.h>
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
+// #include "all.h"
 
 typedef struct {
   double r;
@@ -16,7 +16,7 @@ struct {
 } glob;
 
 int FONT_SIZE = 12;
-int LOOP_WAIT = 5000;
+int LOOP_WAIT = 500;
 int WINDOW_SIZE = 1600;
 int CIRCLE_HEIGHT = 25;
 int LINE_WIDTH = 3;
@@ -29,9 +29,10 @@ Color* BLACK;
 Color* WHITE;
 struct node *ROOT;
 
-
 struct node *MIN;
 int NUM_OF_TASKS;
+int GENERATE_NEW_TASKS;
+// int MAX_TASKS = 30;
 
 Color *make_color(double r, double b, double g);
 static gboolean on_draw_event(GtkWidget *widget, cairo_t *cr, gpointer user_data);

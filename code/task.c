@@ -13,6 +13,7 @@
   - pop the task when it terminates
   */
 #include "all.h"
+#include <math.h>
 
 /* higher priority values for lower nice values */
 
