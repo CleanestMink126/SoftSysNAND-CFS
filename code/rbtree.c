@@ -354,7 +354,7 @@ struct node* build_tree()
       n->vtime = (double) values[i];
       insert(&root, &min, n);
     }
-    inorder(root);
+    // inorder(root);
 
     return root;
 }
