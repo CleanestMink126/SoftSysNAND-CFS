@@ -33,7 +33,7 @@ static void drawing_recursive(cairo_t *cr, GtkWidget *widget, struct node* root)
     color = 0;
     cairo_set_source_rgb(cr, BLACK->r, BLACK->g, BLACK->b);
   }
-  // cairo_translate(cr, (int) CIRCLE_HEIGHT * 1.5, (int) CIRCLE_HEIGHT * 1.5);
+  // cairo_translate(cr, (int) CIRCLE_HEIGHT * HEIGHT_CONSTANT, (int) CIRCLE_HEIGHT * HEIGHT_CONSTANT);
   cairo_arc(cr, 0, 0, CIRCLE_HEIGHT, 0, 2 * M_PI);
   cairo_stroke_preserve(cr);
   cairo_fill(cr);
@@ -50,7 +50,7 @@ static void drawing_recursive(cairo_t *cr, GtkWidget *widget, struct node* root)
   snprintf(id, sizeof(id), "%d", root->pid);
   snprintf(vtime, sizeof(vtime), "%.1f", root->vtime);
 
-  cairo_translate(cr, -0.5*CIRCLE_HEIGHT, 0);
+  cairo_translate(cr, -TEXT_DISTANCE*CIRCLE_HEIGHT, 0);
   // cairo_move_to(cr, curr_x - 0.5*CIRCLE_HEIGHT, curr_y);
   cairo_show_text(cr, id);
   cairo_fill(cr);
@@ -60,12 +60,12 @@ static void drawing_recursive(cairo_t *cr, GtkWidget *widget, struct node* root)
   cairo_show_text(cr, vtime);
   cairo_fill(cr);
   // cairo_move_to(cr, curr_x, curr_y);
-  cairo_translate(cr,  0.5*CIRCLE_HEIGHT, -FONT_SIZE);
+  cairo_translate(cr,  TEXT_DISTANCE*CIRCLE_HEIGHT, -FONT_SIZE);
   // cairo_translate(cr, 0.5*CIRCLE_HEIGHT, 0);
 
   if(root->left != NULL){
     curr_x = curr_x / 2;
-    curr_y = curr_y - 1.5*CIRCLE_HEIGHT;
+    curr_y = curr_y - HEIGHT_CONSTANT*CIRCLE_HEIGHT;
     // cairo_fill (cr);
     // cairo_set_source_rgb (cr, 0, 1, 0);
     // cairo_stroke (cr);
@@ -75,28 +75,28 @@ static void drawing_recursive(cairo_t *cr, GtkWidget *widget, struct node* root)
     // cairo_fill(cr);
     //
 
-    cairo_translate(cr, (int) -curr_x, (int) CIRCLE_HEIGHT * 1.5);
+    cairo_translate(cr, (int) -curr_x, (int) CIRCLE_HEIGHT * HEIGHT_CONSTANT);
     // cairo_move_to(cr, curr_x, curr_y);
     // printf("Left child.\n");
     drawing_recursive(cr, widget, root->left);
 
-    cairo_translate(cr, (int) curr_x, (int) CIRCLE_HEIGHT * -1.5);
+    cairo_translate(cr, (int) curr_x, (int) CIRCLE_HEIGHT * -HEIGHT_CONSTANT);
     curr_x = curr_x * 2;
-    curr_y = curr_y + 1.5*CIRCLE_HEIGHT;
+    curr_y = curr_y + HEIGHT_CONSTANT*CIRCLE_HEIGHT;
     // cairo_move_to(cr, curr_x, curr_y);
   }
 
   if(root->right != NULL){
     curr_x = curr_x / 2;
-    curr_y = curr_y - 1.5*CIRCLE_HEIGHT;
-    cairo_translate(cr, (int) curr_x, (int) CIRCLE_HEIGHT * 1.5);
+    curr_y = curr_y - HEIGHT_CONSTANT*CIRCLE_HEIGHT;
+    cairo_translate(cr, (int) curr_x, (int) CIRCLE_HEIGHT * HEIGHT_CONSTANT);
     // cairo_move_to(cr, curr_x, curr_y);
     // printf("right child.\n");
     drawing_recursive(cr, widget, root->right);
 
-    cairo_translate(cr, (int) -curr_x, (int) CIRCLE_HEIGHT * -1.5);
+    cairo_translate(cr, (int) -curr_x, (int) CIRCLE_HEIGHT * -HEIGHT_CONSTANT);
     curr_x = curr_x * 2;
-    curr_y = curr_y + 1.5*CIRCLE_HEIGHT;
+    curr_y = curr_y + HEIGHT_CONSTANT*CIRCLE_HEIGHT;
     // cairo_move_to(cr, curr_x, curr_y);
   }
 

@@ -20,6 +20,8 @@ int LOOP_WAIT = 5000;
 int WINDOW_SIZE = 1600;
 int CIRCLE_HEIGHT = 25;
 int LINE_WIDTH = 3;
+double HEIGHT_CONSTANT = 2.0;
+double TEXT_DISTANCE = 0.5;
 Color* RED;
 Color* BLACK;
 Color* WHITE;
