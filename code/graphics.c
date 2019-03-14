@@ -48,9 +48,10 @@ static void draw_line(GtkWidget *widget, cairo_t *cr, int direction, struct node
   cairo_move_to(cr, xmove, 0);
   cairo_rel_line_to(cr, xrel, (int) CIRCLE_HEIGHT * HEIGHT_CONSTANT);
 
-  cairo_set_line_width (cr, 2);
+  cairo_set_line_width (cr, BRANCH_WIDTH);
   cairo_stroke(cr);
   cairo_fill(cr);
+  cairo_set_line_width(cr, LINE_WIDTH);
 }
 
 
@@ -91,9 +92,7 @@ static void drawing_recursive(cairo_t *cr, GtkWidget *widget, struct node* root)
   GtkWidget *win = gtk_widget_get_toplevel(widget);
   int direction;
 
-  draw_circle(widget, cr, root);
 
-  circle_text(widget, cr, root);
 
   if(root->left != NULL){
     curr_x = curr_x / 2;
@@ -124,6 +123,10 @@ static void drawing_recursive(cairo_t *cr, GtkWidget *widget, struct node* root)
     curr_x = curr_x * 2;
     curr_y = curr_y + HEIGHT_CONSTANT*CIRCLE_HEIGHT;
   }
+
+  draw_circle(widget, cr, root);
+
+  circle_text(widget, cr, root);
 
 }
 
