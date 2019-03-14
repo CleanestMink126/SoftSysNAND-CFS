@@ -19,10 +19,23 @@ static gboolean on_draw_event(GtkWidget *widget, cairo_t *cr, gpointer user_data
   return FALSE;
 }
 
-static void draw_line(GtkWidget *widget, cairo_t *cr, int direction){
+static void set_color(GtkWidget *widget, cairo_t *cr, char in){
+  if(in == 'R'){
+    cairo_set_source_rgb(cr, RED->r, RED->g, RED->b);
+  }
+  else {
+    cairo_set_source_rgb(cr, BLACK->r, BLACK->g, BLACK->b);
+  }
+}
+
+
+static void draw_line(GtkWidget *widget, cairo_t *cr, int direction, struct node* root){
   GtkWidget *win = gtk_widget_get_toplevel(widget);
   cairo_move_to (cr, 0, 0);
   int xmove, xrel;
+
+  set_color(widget, cr, root->color);
+
   if(direction == 0){
     xmove = -CIRCLE_HEIGHT;
     xrel = -curr_x;
@@ -40,16 +53,6 @@ static void draw_line(GtkWidget *widget, cairo_t *cr, int direction){
   cairo_fill(cr);
 }
 
-static int set_color(GtkWidget *widget, cairo_t *cr, char in){
-  if(in == 'R'){
-    cairo_set_source_rgb(cr, RED->r, RED->g, RED->b);
-    return 1;
-  }
-  else {
-    cairo_set_source_rgb(cr, BLACK->r, BLACK->g, BLACK->b);
-    return 0;
-  }
-}
 
 static void circle_text(GtkWidget *widget, cairo_t *cr, struct node* root){
   GtkWidget *win = gtk_widget_get_toplevel(widget);
@@ -76,27 +79,28 @@ static void circle_text(GtkWidget *widget, cairo_t *cr, struct node* root){
   cairo_translate(cr,  TEXT_DISTANCE*CIRCLE_HEIGHT, -FONT_SIZE);
 }
 
-
-static void drawing_recursive(cairo_t *cr, GtkWidget *widget, struct node* root){
-  GtkWidget *win = gtk_widget_get_toplevel(widget);
-  int color, direction;
-
-  color = set_color(widget, cr, root->color);
-
+static void draw_circle(GtkWidget *widget, cairo_t *cr, struct node* root){
+  set_color(widget, cr, root->color);
   cairo_arc(cr, 0, 0, CIRCLE_HEIGHT, 0, 2 * M_PI);
   cairo_stroke_preserve(cr);
   cairo_fill(cr);
+}
+
+
+static void drawing_recursive(cairo_t *cr, GtkWidget *widget, struct node* root){
+  GtkWidget *win = gtk_widget_get_toplevel(widget);
+  int direction;
+
+  draw_circle(widget, cr, root);
 
   circle_text(widget, cr, root);
-
 
   if(root->left != NULL){
     curr_x = curr_x / 2;
     curr_y = curr_y - HEIGHT_CONSTANT*CIRCLE_HEIGHT;
     direction = 0;
 
-    draw_line(widget, cr, direction);
-
+    draw_line(widget, cr, direction, root->left);
 
     cairo_translate(cr, (int) -curr_x, (int) CIRCLE_HEIGHT * HEIGHT_CONSTANT);
     drawing_recursive(cr, widget, root->left);
@@ -111,12 +115,12 @@ static void drawing_recursive(cairo_t *cr, GtkWidget *widget, struct node* root)
     curr_y = curr_y - HEIGHT_CONSTANT*CIRCLE_HEIGHT;
     direction = 1;
 
-    draw_line(widget, cr, direction);
+    draw_line(widget, cr, direction, root->right);
 
     cairo_translate(cr, (int) curr_x, (int) CIRCLE_HEIGHT * HEIGHT_CONSTANT);
     drawing_recursive(cr, widget, root->right);
     cairo_translate(cr, (int) -curr_x, (int) CIRCLE_HEIGHT * -HEIGHT_CONSTANT);
-    
+
     curr_x = curr_x * 2;
     curr_y = curr_y + HEIGHT_CONSTANT*CIRCLE_HEIGHT;
   }
