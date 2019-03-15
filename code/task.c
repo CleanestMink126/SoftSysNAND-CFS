@@ -58,7 +58,7 @@ double generate_Ndistribute_random(const double mean, const double stdDev) {
 struct node* generate_task(int num_tasks, double min_vtime){
 
   double Ndistribute;
-  Ndistribute = exp(generate_Ndistribute_random(50.0, 20.0));
+  Ndistribute = exp(generate_Ndistribute_random(3.0, 1.0));
 
   struct node* new_task = (struct node*)malloc(sizeof(struct node));;
   new_task->pid = num_tasks;
@@ -100,27 +100,25 @@ int check_runtime(struct node *check_task){
 
 /* Temporary main function to test above functions */
 
-// int main(){
-//   srand(time(0));
-//   double value = (double)1024/pow(1.25,(double)30);
-//   printf("value: %f\n", value);
-//   struct node *new = generate_task(4,0);
-//   increment_vtime(new,0.1);
-//   increment_vtime(new,0.1);
-//   increment_vtime(new,0.1);
-//
-//   printf("let's see the weight: %d\n", prio_to_weight[39]);
-//   printf("priority value: %f\n", generate_task(3,0)->priority);
-//
-//   struct node *should_terminate = generate_task(7,0);
-//   printf("given lifetime of should_terminate: %f\n", should_terminate->lifetime);
-//   printf("priority of should_terminate: %f\n", should_terminate->priority);
-//
-//   for (int i; i<1000; i++){
-//     if (increment_vtime(should_terminate,0.1)){
-//       break;
-//     }
-//   }
-//   /* check if the task is actually popped */
-//   return 0;
-// }
+ int main(){
+   srand(time(0));
+   double value = (double)1024/pow(1.25,(double)30);
+   printf("value: %f\n", value);
+   struct node *new = generate_task(4,0);
+   increment_vtime(new,0.1);
+   increment_vtime(new,0.1);
+   increment_vtime(new,0.1);
+
+   printf("let's see the weight: %d\n", prio_to_weight[39]);
+   printf("priority value: %f\n", generate_task(3,0)->priority);
+
+   struct node *should_terminate = generate_task(7,0);
+   printf("given lifetime of should_terminate: %f\n", should_terminate->lifetime);
+   printf("priority of should_terminate: %f\n", should_terminate->priority);
+
+   for (int i; i<100; i++){
+     printf("lifetime: %f\n",generate_task(5,0) -> lifetime);
+   }
+   /* check if the task is actually popped */
+   return 0;
+ }
