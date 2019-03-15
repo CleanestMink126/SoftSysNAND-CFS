@@ -1,75 +1,65 @@
 #include "all.h"
+#include "graphics.c"
 
-int main()
+int main(int argc, char *argv[])
 {
-    //Helpful stuff for timing
-    srand(time(0));
-    time_t end;
-    time_t start = time(0);
-    time_t seconds = 10; // end loop after this time has elapsed
-    struct timespec tim;
-    tim.tv_sec = 0;
-    tim.tv_nsec = 100000000L;
-    end = start + seconds;
-    printf("processing activated at %s", ctime(&start));
-    //Helpful stuff for red black trees
-    int num_of_tasks = 0;
-    struct node *root = NULL;
-    struct node *min = NULL;
-    struct node* n;
-    int starting_tasks = 12;
-    int max_tasks = 30;
-    int generate_new_tasks = 0;
-    int put_back = 1;
-    //-----------Generate tasks------------
-    for(int i = 0; i < starting_tasks; i++){
-      n = generate_task(num_of_tasks, 0);
-      insert(&root, &min, n);
-      num_of_tasks++;
-    }
+  //Start variables
+  GtkWidget *window;
+  GtkWidget *darea;
+  RED = make_color(0.69, 0.19, 0.0);
+  BLACK = make_color(0.0, 0.0, 0.0);
+  WHITE = make_color(1.0, 1.0, 1.0);
+  ROOT = build_tree();
+  glob.count = 0;
 
-    while (start < end)
-    {
-        /* Do stuff while waiting */
-        nanosleep(&tim,NULL);
-        start = time(0);
+  //Set up gtk
+  gtk_init(&argc, &argv);
+  window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+  darea = gtk_drawing_area_new();
+  gtk_container_add(GTK_CONTAINER (window), darea);
+  g_signal_connect(G_OBJECT(darea), "draw", G_CALLBACK(on_draw_event), NULL);
+  g_signal_connect(G_OBJECT(window), "destroy", G_CALLBACK(gtk_main_quit), NULL);
+  gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
+  gtk_window_set_default_size(GTK_WINDOW(window), WINDOW_SIZE, WINDOW_SIZE);
+  gtk_window_set_title(GTK_WINDOW(window), "RB Tree Demonstration");
+  g_timeout_add(LOOP_WAIT, (GSourceFunc) time_handler, (gpointer) window);
+  gtk_widget_show_all(window);
 
-        n = delete_min(&root, &min);
-        printf("PID:%i    Vtime:%lf\n",n -> pid, n ->vtime);
-        put_back = 1;
-        while(n -> vtime <= min -> vtime){
-          puts("Increment\n");
-          if (increment_vtime(n,1)){
-            put_back = 0;
-            break;
-          }//I didnt decrement the number of nodes cause it causes PID collisions
-          int prob = rand() % 4;
-          if (prob == 0 && generate_new_tasks && num_of_tasks < max_tasks){
-            // printf("task generated at time : %s", ctime(&start));
-            struct node* b = generate_task(num_of_tasks, min -> vtime);
-            insert(&root, &min, b);
-            printf("lifetime: %f \n", n->lifetime);
-            num_of_tasks++;
-          }
-        }
-        if(put_back){
-          insert(&root, &min, n);
-          printf("Put back\n");
-        }else{
-          printf("Terminated\n");
-        }
-        printf("PID:%i    Vtime:%lf\n",n -> pid, n ->vtime);
-        printf("-----------------\n");
-    }
 
-    printf("end time is %s", ctime(&end));
+  //Helpful stuff for timing
+  srand(time(0));
+  time_t end, start;
+  time_t seconds = 10; // end loop after this time has elapsed
+  struct timespec tim;
+  tim.tv_sec = 0;
+  tim.tv_nsec = 100000000L;
+  end = start + seconds;
+  printf("processing activated at %s", ctime(&start));
 
-/* print all tasks in que */
-    // puts("lifetime of generated tasks: \n");
-    // for(int i = 0; i<num_of_tasks; i++){
-    //   n = delete_min(&root, &min);
-    //   printf( "%fs \n", n->vtime);
-    // }
 
-    return 0;
+  //Helpful stuff for red black trees
+  NUM_OF_TASKS = 0;
+  struct node *root = NULL;
+  // struct node *min = NULL;
+  struct node* n;
+  int starting_tasks = 12;
+  GENERATE_NEW_TASKS = 0;
+
+
+  //-----------Generate tasks------------
+  for(int i = 0; i < starting_tasks; i++){
+    n = generate_task(NUM_OF_TASKS, 0);
+    insert(&root, &MIN, n);
+    NUM_OF_TASKS++;
+  }
+
+  //Reassign to global pointer
+  ROOT = root;
+
+  //Start the "real work" in graphics.c
+  gtk_main();
+
+  printf("end time is %s", ctime(&end));
+
+  return 0;
 }

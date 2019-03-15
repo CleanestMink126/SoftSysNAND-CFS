@@ -1,6 +1,5 @@
 #include "graphics.h"
 
-
 int count = 0;
 int curr_number = 0;
 double curr_x = 0;
@@ -226,8 +225,37 @@ static void do_drawing(cairo_t *cr, GtkWidget *widget) {
   cairo_set_source_rgb (cr, WHITE->r, WHITE->g, WHITE->b);
   cairo_paint (cr);
 
+  struct node* n;
+  int put_back = 1;
+
+  n = delete_min(&ROOT, &MIN);
+  printf("PID:%i    Vtime:%lf\n",n -> pid, n ->vtime);
+  put_back = 1;
+  while(n -> vtime <= MIN -> vtime){
+    puts("Increment\n");
+    if (increment_vtime(n,1)){
+      put_back = 0;
+      break;
+    }//I didnt decrement the number of nodes cause it causes PID collisions
+    int prob = rand() % 4;
+    if (prob == 0 && GENERATE_NEW_TASKS && NUM_OF_TASKS < MAX_TASKS){
+      struct node* b = generate_task(NUM_OF_TASKS, MIN -> vtime);
+      insert(&ROOT, &MIN, b);
+      printf("lifetime: %f \n", n->lifetime);
+      NUM_OF_TASKS++;
+    }
+  }
+  if(put_back){
+    insert(&ROOT, &MIN, n);
+    printf("Put back\n");
+  }else{
+    printf("Terminated\n");
+  }
+  printf("PID:%i    Vtime:%lf\n",n -> pid, n ->vtime);
+  printf("-----------------\n");
+
   //Recursively do the drawing that we want
-  drawing_recursive(cr, widget, temp);
+  drawing_recursive(cr, widget, ROOT);
 }
 
 
@@ -243,38 +271,4 @@ static gboolean time_handler(GtkWidget *widget)
   gtk_widget_queue_draw(widget);
 
   return TRUE;
-}
-
-int main(int argc, char *argv[])
-{
-
-  GtkWidget *window;
-  GtkWidget *darea;
-  RED = make_color(0.69, 0.19, 0.0);
-  BLACK = make_color(0.0, 0.0, 0.0);
-  WHITE = make_color(1.0, 1.0, 1.0);
-  ROOT = build_tree();
-
-  glob.count = 0;
-
-  gtk_init(&argc, &argv);
-
-  window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-
-  darea = gtk_drawing_area_new();
-  gtk_container_add(GTK_CONTAINER (window), darea);
-
-  g_signal_connect(G_OBJECT(darea), "draw", G_CALLBACK(on_draw_event), NULL);
-  g_signal_connect(G_OBJECT(window), "destroy", G_CALLBACK(gtk_main_quit), NULL);
-
-  gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
-  gtk_window_set_default_size(GTK_WINDOW(window), WINDOW_SIZE, WINDOW_SIZE);
-  gtk_window_set_title(GTK_WINDOW(window), "RB Tree Demo");
-
-  g_timeout_add(LOOP_WAIT, (GSourceFunc) time_handler, (gpointer) window);
-  gtk_widget_show_all(window);
-
-  gtk_main();
-
-  return 0;
 }
