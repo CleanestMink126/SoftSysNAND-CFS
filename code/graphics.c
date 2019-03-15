@@ -72,6 +72,7 @@ static void draw_line(GtkWidget *widget, cairo_t *cr, int direction, struct node
 
   set_color(cr, root->color);
 
+  //Figure out what direction from the root node you will go to your child
   if(direction == 0){
     xmove = -CIRCLE_HEIGHT;
     xrel = -curr_x;
@@ -80,10 +81,10 @@ static void draw_line(GtkWidget *widget, cairo_t *cr, int direction, struct node
     xmove = CIRCLE_HEIGHT;
     xrel = curr_x;
   }
-
+  
+  //Move and draw your line
   cairo_move_to(cr, xmove, 0);
   cairo_rel_line_to(cr, xrel, (int) CIRCLE_HEIGHT * HEIGHT_CONSTANT);
-
   cairo_set_line_width (cr, BRANCH_WIDTH);
   cairo_stroke(cr);
   cairo_fill(cr);
@@ -101,7 +102,7 @@ struct node* root (node whose text is to be displayed)
 Returns: void
 */
 static void circle_text(GtkWidget *widget, cairo_t *cr, struct node* root){
-
+  //Set color (opposite of node color)
   if(root->color == 'B'){
     cairo_set_source_rgb(cr, RED->r, RED->g, RED->b);
   }
@@ -109,18 +110,22 @@ static void circle_text(GtkWidget *widget, cairo_t *cr, struct node* root){
     cairo_set_source_rgb(cr, BLACK->r, BLACK->g, BLACK->b);
   }
 
+  //Set the strings you want
   char id[7] = "";
   char vtime[7] = "";
   snprintf(id, sizeof(id), "%d", root->pid);
   snprintf(vtime, sizeof(vtime), "%.1f", root->vtime);
 
+  //Proint the first string
   cairo_translate(cr, -TEXT_DISTANCE*CIRCLE_HEIGHT, 0);
   cairo_show_text(cr, id);
   cairo_fill(cr);
 
+  //Print the second string
   cairo_translate(cr, 0, FONT_SIZE);
   cairo_show_text(cr, vtime);
   cairo_fill(cr);
+  //Go back to the initial location
   cairo_translate(cr,  TEXT_DISTANCE*CIRCLE_HEIGHT, -FONT_SIZE);
 }
 

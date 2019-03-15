@@ -22,11 +22,11 @@ struct {
 int FONT_SIZE = 12;
 int LOOP_WAIT = 500;
 int WINDOW_SIZE = 1600;
-int CIRCLE_HEIGHT = 25;
+int CIRCLE_HEIGHT = 35;
 int LINE_WIDTH = 3;
 int BRANCH_WIDTH = 7;
 char* FONT = "Purisa";
-double HEIGHT_CONSTANT = 2.0;
+double HEIGHT_CONSTANT = 4.0;
 double TEXT_DISTANCE = 0.5;
 
 //Color declarations; instantiated in Main function
