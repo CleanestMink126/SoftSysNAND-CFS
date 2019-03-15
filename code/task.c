@@ -57,12 +57,15 @@ double generate_Ndistribute_random(const double mean, const double stdDev) {
 /* fucntion for generating tastruct node generate_task(){sk to be processed */
 struct node* generate_task(int num_tasks, double min_vtime){
 
+  double Ndistribute;
+  Ndistribute = exp(generate_Ndistribute_random(50.0, 20.0));
+
   struct node* new_task = (struct node*)malloc(sizeof(struct node));;
   new_task->pid = num_tasks;
   new_task->state = 0;
   new_task->IO_use = 0;
   new_task->priority = rand()%40-20;
-  new_task->lifetime = generate_Ndistribute_random(50.0, 20.0);
+  new_task->lifetime = Ndistribute;
   new_task->vtime = min_vtime;
   return new_task;
 }
