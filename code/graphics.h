@@ -20,7 +20,7 @@ struct {
 //Constants
 //TODO: Make own file?
 int FONT_SIZE = 12;
-int LOOP_WAIT = 500;
+int LOOP_WAIT = 200;
 int WINDOW_SIZE = 1600;
 int CIRCLE_HEIGHT = 35;
 int LINE_WIDTH = 3;

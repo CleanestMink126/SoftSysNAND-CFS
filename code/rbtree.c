@@ -71,7 +71,7 @@ void right_rotate(struct node **root,struct node *y)
 void insert_fix_up(struct node **root,struct node *z)
 {
     // iterate until z is not the root and z's parent color is red
-    while (z != *root && z->parent->color == 'R')
+    while (z != *root && z->color == 'R' && z->parent->color == 'R')
     {
         struct node *y;
 

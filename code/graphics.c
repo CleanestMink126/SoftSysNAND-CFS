@@ -81,7 +81,7 @@ static void draw_line(GtkWidget *widget, cairo_t *cr, int direction, struct node
     xmove = CIRCLE_HEIGHT;
     xrel = curr_x;
   }
-  
+
   //Move and draw your line
   cairo_move_to(cr, xmove, 0);
   cairo_rel_line_to(cr, xrel, (int) CIRCLE_HEIGHT * HEIGHT_CONSTANT);
@@ -237,6 +237,10 @@ static void do_drawing(cairo_t *cr, GtkWidget *widget) {
   printf("PID:%i    Vtime:%lf\n",n -> pid, n ->vtime);
   put_back = 1;
   while(n -> vtime <= MIN -> vtime){
+    if(check_valid_recur(ROOT) == -1){
+      printf("NOT VALID TREE--------------------------------------------------------");
+      exit(1);
+    }
     puts("Increment\n");
     if (increment_vtime(n,1)){
       put_back = 0;
