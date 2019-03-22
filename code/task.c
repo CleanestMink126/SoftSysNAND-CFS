@@ -13,22 +13,6 @@
   - pop the task when it terminates
   */
 #include "all.h"
-#include <math.h>
-
-/* higher priority values for lower nice values */
-
-static const int prio_to_weight[40] = {
- /* -20 */     39,     38,     37,     36,     35,
- /* -15 */     34,     33,     32,     31,     30,
- /* -10 */      29,      28,      27,      26,      25,
- /*  -5 */      24,      23,      22,      21,      20,
- /*   0 */      19,       18,       17,       16,       15,
- /*   5 */       14,       13,       12,       11,       10,
- /*  10 */       9,        8,        7,        6,        5,
- /*  15 */        4,        3,        2,        1,        0,
-};
-
-
 double generate_Ndistribute_random(const double mean, const double stdDev) {
 
 	int hasSpare = 0;
@@ -54,21 +38,34 @@ double generate_Ndistribute_random(const double mean, const double stdDev) {
     return mean + stdDev * u * s;
   }
 }
+
+//Function to set task color so for more readable code
+void set_task_color_1(struct node* n){
+	double g = (40.0  - (n->priority + 20.0))/40.0;
+	double arr[] = {0.0, g, 0.0};
+ 	n->priority_color[0] = arr[0];
+ 	n->priority_color[1] = arr[1];
+ 	n->priority_color[2] = arr[2];
+}
+
 /* fucntion for generating tastruct node generate_task(){sk to be processed */
 struct node* generate_task(int num_tasks, double min_vtime){
 
   double Ndistribute;
-  Ndistribute = exp(generate_Ndistribute_random(3.0, 1.0));
+  Ndistribute = exp(generate_Ndistribute_random(MEAN_RUNTIME, STD_RUNTIME));
+	printf("Runtime: %lf\n", Ndistribute );
 
   struct node* new_task = (struct node*)malloc(sizeof(struct node));;
   new_task->pid = num_tasks;
   new_task->state = 0;
   new_task->IO_use = 0;
   new_task->priority = rand()%40-20;
+	set_task_color_1(new_task);
   new_task->lifetime = Ndistribute;
   new_task->vtime = min_vtime;
   return new_task;
 }
+
 
 /* function that adds task to que once generated*/
 void add_task(struct node *p, struct node a, int * num_tasks){
@@ -80,7 +77,7 @@ void add_task(struct node *p, struct node a, int * num_tasks){
 
 /* fucntion that increments virtual runtime of certain task if it is ran */
 int increment_vtime(struct node *run_task, float delta){
-  run_task -> vtime += delta * (double)1024/pow(1.25,(int)run_task->priority);
+  run_task -> vtime += delta * (double)1024/pow(1.25,-1 * (int)run_task->priority);
   run_task -> lifetime -= delta;
   printf("vtime is now: %f\n", run_task->vtime);
   return check_runtime(run_task);

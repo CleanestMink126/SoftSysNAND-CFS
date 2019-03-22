@@ -1,14 +1,35 @@
+#include "graphics.h"
 #include "all.h"
-#include "graphics.c"
 
 int main(int argc, char *argv[])
 {
+  //Constants
+  FONT_SIZE = 12;
+  LOOP_WAIT = 50;
+  WINDOW_SIZE = 1600;
+  CIRCLE_HEIGHT = 15;
+  LINE_WIDTH = 3;
+  BRANCH_WIDTH = 7;
+  FONT = "Purisa";
+  HEIGHT_CONSTANT = 6.0;
+  TEXT_DISTANCE = 0.5;
+
+  MODE = 2;
+  MAX_VTIME = 0;
+  MEAN_ALLOT = 0.3;
+  STD_ALLOT = 0.3;
+
+  MEAN_RUNTIME = 5.0;
+  STD_RUNTIME = 1.5;
   //Start variables
+  read_file();
   GtkWidget *window;
   GtkWidget *darea;
-  RED = make_color(0.69, 0.19, 0.0);
-  BLACK = make_color(0.0, 0.0, 0.0);
-  WHITE = make_color(1.0, 1.0, 1.0);
+  RED[0] = 0.69;
+  RED[1] = 0.19;
+  RED[2] = 0.0;
+  BLACK[0] = BLACK[1] = BLACK[2] = 0.0;
+  WHITE[0] = WHITE[1] = WHITE[2] = 1.0;
   ROOT = build_tree();
   glob.count = 0;
 
@@ -42,13 +63,17 @@ int main(int argc, char *argv[])
   struct node *root = NULL;
   // struct node *min = NULL;
   struct node* n;
-  int starting_tasks = 12;
+  int starting_tasks = 60;
   GENERATE_NEW_TASKS = 0;
 
 
   //-----------Generate tasks------------
   for(int i = 0; i < starting_tasks; i++){
     n = generate_task(NUM_OF_TASKS, 0);
+    if(MODE == 1){
+      n->priority = PRIORITIES[i];
+      set_task_color_1(n);
+    }
     insert(&root, &MIN, n);
     NUM_OF_TASKS++;
   }
