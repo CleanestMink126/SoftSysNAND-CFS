@@ -13,6 +13,7 @@ struct {
 
 
 //Constants
+int MODE;
 int FONT_SIZE;
 int LOOP_WAIT;
 int WINDOW_SIZE;
@@ -22,6 +23,9 @@ int BRANCH_WIDTH;
 char* FONT;
 double HEIGHT_CONSTANT;
 double TEXT_DISTANCE;
+double MEAN_ALLOT;
+double STD_ALLOT;
+
 
 
 //Color declarations; instantiated in Main function
@@ -34,10 +38,8 @@ struct node *ROOT;
 struct node *MIN;
 int NUM_OF_TASKS;
 int GENERATE_NEW_TASKS;
-int MODE;
 double MAX_VTIME;
-double MEAN_ALLOT;
-double STD_ALLOT;
+
 
 
 

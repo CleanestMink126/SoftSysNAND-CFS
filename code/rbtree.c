@@ -1,5 +1,6 @@
 // C program for Red-Black Tree insertion
 //Adapted from https://gist.github.com/VictorGarritano/5f894be162d39e9bdd5c
+//I did a good amount of adjustment because the code was wrong
 #include "all.h"
 
 void print_node(struct node *n){
@@ -233,9 +234,10 @@ int check_valid_recur(struct node *c){
   return l_val + (c->color == 'B');
 }
 
+
+//Code to resolve the problem of a double black node in a tree
 void resolve_db(struct node **root, struct node *db, struct node *parent){
   //advised by https://www.geeksforgeeks.org/red-black-tree-set-3-delete-2/
-  //printf("Resolve db\n");
   if(db == (*root)){
     return;
   }
@@ -277,6 +279,12 @@ void resolve_db(struct node **root, struct node *db, struct node *parent){
   }
 }
 
+/*Delte the minimum from a RB tree. May adjust min and root pointers
+Input:
+root: pointer to pointer to the root of the trees
+min: pointer to pointer to the minimum node of the trees
+Returns: pointer to removed minimum node
+*/
 struct node* delete_min(struct node **root, struct node **min){
 
   struct node *x = (*min);

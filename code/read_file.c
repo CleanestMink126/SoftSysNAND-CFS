@@ -1,4 +1,5 @@
 #include "all.h"
+//Reads numbers from a file and puts them into the global array PRIORITIES
 void read_file()
 {
     FILE *myFile;

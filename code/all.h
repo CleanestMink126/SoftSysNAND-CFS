@@ -42,7 +42,6 @@ struct node* delete_min(struct node **root, struct node **min);
 int test_funtctionality();
 struct node* build_tree();
 
-
 //For reading priorities
 void read_file();
 int* PRIORITIES;
