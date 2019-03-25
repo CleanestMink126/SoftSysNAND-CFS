@@ -27,6 +27,9 @@ double generate_Ndistribute_random(const double mean, const double stdDev) {
     return mean + stdDev * u * s;
   }
 }
+<<<<<<< HEAD
+/* fucntion for generating tastruct node generate_task(){sk to be processed. This function takes num_tasks to attach unique pid to task and returns a new node */
+=======
 
 //Function to set task color for mode 1
 void set_task_color_1(struct node* n){
@@ -39,6 +42,7 @@ void set_task_color_1(struct node* n){
 
 /* fucntion for generating task to be processed
  struct node generate_task(){ */
+>>>>>>> beace65e2d33d24c21ed79401f7f9d489bc3db0d
 struct node* generate_task(int num_tasks, double min_vtime){
 
   double Ndistribute;
@@ -56,10 +60,22 @@ struct node* generate_task(int num_tasks, double min_vtime){
   return new_task;
 }
 
+<<<<<<< HEAD
+/* function that adds task to que once generated. This function takes pointer to list of nodes and appends certain node to the list*/
+void add_task(struct node *p, struct node a, int * num_tasks){
+  if ( *num_tasks < MAX_TASKS){
+    p[*num_tasks] = a;
+    *num_tasks += 1;
+  }
+}
+
+/* fucntion that increments virtual runtime of certain task if it is ran. */
+=======
 
 /* fucntion that increments virtual runtime of certain task if it is ran
 Returns: whether or not the task had ended
 */
+>>>>>>> beace65e2d33d24c21ed79401f7f9d489bc3db0d
 int increment_vtime(struct node *run_task, float delta){
   run_task -> vtime += delta * (double)1024/pow(1.25,-1 * (int)run_task->priority);
   run_task -> lifetime -= delta;
