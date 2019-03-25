@@ -107,5 +107,3 @@ Overall, our project turned out very well and was at the upper bound or arguably
 When looking back at our learning goals, we realized that we successfully hit all of our individual goals in conjunction with the team goals. More about the learning goals can be read in the learning goals section.
 
 In the end, we are happy with our final deliverable. We met our learning goals, produced a cool project that we can readily demonstrate, and enjoyed our time making it.
-
-
