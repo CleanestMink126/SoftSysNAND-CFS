@@ -231,9 +231,11 @@ void do_drawing(cairo_t *cr, GtkWidget *widget) {
   struct node* n;
   int put_back = 1;
 
+  //Remove the ID we are working with
   n = delete_min(&ROOT, &MIN);
   printf("PID:%i    Vtime:%lf\n",n -> pid, n ->vtime);
   put_back = 1;
+  //Increment the time of the process we're working with.
   while(n -> vtime <= MIN -> vtime){
     puts("Increment\n");
     double time_ran = generate_Ndistribute_random(MEAN_ALLOT, STD_ALLOT);
@@ -243,7 +245,7 @@ void do_drawing(cairo_t *cr, GtkWidget *widget) {
     if (increment_vtime(n,time_ran)){
       put_back = 0;
       break;
-    }//I didnt decrement the number of nodes cause it causes PID collisions
+    } //Node PID never decreases to prevent nodes of the same PID
     int prob = rand() % 4;
     if (prob == 0 && GENERATE_NEW_TASKS && NUM_OF_TASKS < MAX_TASKS){
       struct node* b = generate_task(NUM_OF_TASKS, MIN -> vtime);
@@ -252,6 +254,7 @@ void do_drawing(cairo_t *cr, GtkWidget *widget) {
       NUM_OF_TASKS++;
     }
   }
+  //When it's time to move on, either put the node back if there is time left, otherwise "terminate" it and not return it to the tree.
   if(put_back){
     if(MODE == 2 && n->vtime > MAX_VTIME){
       MAX_VTIME = n->vtime;
@@ -264,7 +267,7 @@ void do_drawing(cairo_t *cr, GtkWidget *widget) {
   printf("PID:%i    Vtime:%lf\n",n -> pid, n ->vtime);
   printf("-----------------\n");
 
-  //Recursively do the drawing that we want
+  //Recursively draw the tree starting at the root node
   drawing_recursive(cr, widget, ROOT);
 }
 

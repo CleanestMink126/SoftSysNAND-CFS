@@ -1,9 +1,25 @@
+/*
+Main function of a simplified Linux Completely Fair Scheduler.
+Completed for Software Systems Spring 2019 at Olin College of Engineering.
+Authors: Danny Kang, Nicholas Sherman, Nicholas Steelman
+
+If you do not have cairo installed, run:
+sudo apt-get -y install libcairo2-dev
+
+For different types of visualizations, change the MODE constant to 0, 1, or 2.
+*/
+
 #include "graphics.h"
 #include "all.h"
 
 int main(int argc, char *argv[])
 {
   //Constants for visualization
+  MODE = 0; //Three modes: 0, 1, 2.
+  //Mode 0 - Draw the R/B tree with red nodes indicating red nodes on the tree and black nodes indicating black nodes on the tree.
+  //Mode 1 - Draw the R/B tree to show the gradient of priorites, with lighter colored nodes having a higher priority.
+  //Mode 2 - Draw the R/B tree to show the gradient of vtimes, with red nodes having a lower vtime.
+
   FONT_SIZE = 12;
   LOOP_WAIT = 10;
   WINDOW_SIZE = 1600;
@@ -13,18 +29,19 @@ int main(int argc, char *argv[])
   FONT = "Purisa";
   HEIGHT_CONSTANT = 6.0;
   TEXT_DISTANCE = 0.5;
-  MODE = 0;
   RED[0] = 0.69;
   RED[1] = 0.19;
   RED[2] = 0.0;
   BLACK[0] = BLACK[1] = BLACK[2] = 0.0;
   WHITE[0] = WHITE[1] = WHITE[2] = 1.0;
+
   //Constants for running
   MAX_VTIME = 0;
   MEAN_ALLOT = 0.3;
   STD_ALLOT = 0.3;
   MEAN_RUNTIME = 5.0;
   STD_RUNTIME = 1.5;
+
   //Start variables
   read_file();
   GtkWidget *window;
@@ -43,7 +60,7 @@ int main(int argc, char *argv[])
   gtk_window_set_title(GTK_WINDOW(window), "RB Tree Demonstration");
   g_timeout_add(LOOP_WAIT, (GSourceFunc) time_handler, (gpointer) window);
   gtk_widget_show_all(window);
-  
+
   //Set random seed
   srand(time(0));
 

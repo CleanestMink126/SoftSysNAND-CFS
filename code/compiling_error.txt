@@ -1,4 +1,0 @@
-/tmp/cc3fAc72.o: In function `generate_Ndistribute_random':
-Task.c:(.text+0x136): undefined reference to `log'
-Task.c:(.text+0x157): undefined reference to `sqrt'
-collect2: error: ld returned 1 exit status
