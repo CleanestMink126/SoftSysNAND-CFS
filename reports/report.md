@@ -9,15 +9,15 @@ After prototyping the display, we went back and made the processes created more 
 ## Learning Goals
 Through working on this project, we as a collective had a few main goals, with individual goals varying. All were achieved at the conclusion of the project. These goals are:
 - **Understand the C language better.**
- - We understand that we haven’t had an incredibly large amount of time to learn the C language, especially as most of our first in-depth exposure has come from Software Systems. Therefore, this project gave us an opportunity to better understand the language outside of the perspective of problem sets.
+We understand that we haven’t had an incredibly large amount of time to learn the C language, especially as most of our first in-depth exposure has come from Software Systems. Therefore, this project gave us an opportunity to better understand the language outside of the perspective of problem sets.
 - **Practice C programming**
- - Similar to understanding the C language better, we wanted to practice C programming and the different conventions that differ from other languages we know, especially Java and Python. Through making a nontrivial project from scratch, we are solidified more of the C standards of programming and became more accustomed to coding in C.
+Similar to understanding the C language better, we wanted to practice C programming and the different conventions that differ from other languages we know, especially Java and Python. Through making a nontrivial project from scratch, we are solidified more of the C standards of programming and became more accustomed to coding in C.
 - **Understand better how schedulers work**
- - Something the three of us were curious about was how scheduling works in operating systems, as we know that processes all get different amounts of time to process data and that not all processes actually run simultaneously on the hardware. Therefore, we spent time understanding how schedulers actually work in order to implement one.
+Something the three of us were curious about was how scheduling works in operating systems, as we know that processes all get different amounts of time to process data and that not all processes actually run simultaneously on the hardware. Therefore, we spent time understanding how schedulers actually work in order to implement one.
 - **Understanding how red/black tree algorithm optimizes work done by the CPU**
- - In understanding schedulers, we learned that the C language implements its scheduler through a red-black tree. Therefore, we needed to expand our knowledge into understanding red/black trees as well. Nick Steelman already was very well acquainted with the topic as a Data Structures and Algorithms instructor who had given the lecture on red/black trees, and he used his knowledge to help the other two better understand red/black trees.
+In understanding schedulers, we learned that the C language implements its scheduler through a red-black tree. Therefore, we needed to expand our knowledge into understanding red/black trees as well. Nick Steelman already was very well acquainted with the topic as a Data Structures and Algorithms instructor who had given the lecture on red/black trees, and he used his knowledge to help the other two better understand red/black trees.
 - **Practice Visualization and learn Visualization in C**
- - The final goal of the project was to practice visualization of software and to learn how to visualize in C. Visualization is run  using GTK and the Cairo library. Before this, none of us had experience in visualization in C, so we performed research in order to figure out how to accomplish what we wanted.
+The final goal of the project was to practice visualization of software and to learn how to visualize in C. Visualization is run  using GTK and the Cairo library. Before this, none of us had experience in visualization in C, so we performed research in order to figure out how to accomplish what we wanted.
  
 ## Resources
 Since our project is easily divided into 3 parts, our resources are divided into the same categories:
@@ -62,7 +62,7 @@ struct node* generate_task(int num_tasks, double min_vtime){
 We implemented tasks as a struct with variables such as pid, state, priority, and virtual runtime. We created functions to deal with these tasks by generating them, manipulating their properties, and also checking their virtual runtime to make sure that their runtime do not exceed their lifetime. Our main function consists of a while loop that basically generates tasks in a way that arrival time is exponentially distributed via using srandom(). Each time new task gets generated, it is inserted into red-black tree, which sorts the tasks to run task with least virtual runtime. All these processes are visualized using C.
  
 #### Red Black Tree
-As a base to implement a Red Black Tree, we fixed and adapted some significantly flawed code online that outlined the base structure for a Red Black Tree and (incorrectly) implemented insert. We fixed the insert function as well as created the delete minimum and check valid functions.
+As a base to implement a Red Black Tree, we fixed and adapted some significantly flawed code online that outlined the base structure for a Red Black Tree and (incorrectly) implemented insert. We fixed the insert function as well as created the delete minimum and check valid functions. So, we can always get the task with the least vtime and check that our completed code works.
  
 #### Visualization
 After researching current visualization libraries in C, it was determined the only two relatively good non-deprecated libraries were GTK and Cairo. GTK already breaks down the different functions a fair amount, where the only function that matters when drawing is the do_drawing function. From here, we broke down this function so that it set up the drawing environment, performed the next tree operation, and then drew the tree post-operation. 
@@ -80,7 +80,7 @@ Our goal was to implement Linux Completely Fair Scheduler from scratch and given
 - **Workload simulation**
 Thanks to Allen, we were guided to implement exponential distribution of arrival time of tasks and log normal distribution of lifetime of tasks. Considering exponentially distributed arrival time, we used random function in C to generate task only under certain probability (¼ in our case) for each loop. For log normal distribution of lifetime of tasks, we made use of a source code found from online that takes mean and standard variation to produce random normally distributed numbers. 
 - **Visualization**
--What to visualize when (node color vs. vtime vs. priority)
+What to visualize when (node color vs. vtime vs. priority)
  
 ## Outcome(MVP)
 Overall, our project turned out very well and was at the upper bound or arguably exceeded what we identified in the proposal. As stated in the initial goals, we set out to make a red/black tree, use the red/black tree to keep track of the current processes, and then visualize the tree. We extended the project by learning more about how to best distribute the processes as well as making multiple additional ways to color the tree in the visualization.
