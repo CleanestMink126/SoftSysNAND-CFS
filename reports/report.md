@@ -6,7 +6,7 @@ Software Systems
 Our project goal was to make and visualize a simplified version of the Linux Scheduler. We aimed to accomplish this goal by making a red black tree in C, creating a task simulation environment around it, and visualizing the tree at every step.
 After prototyping the display, we went back and made the processes created more realistic by getting a set of all processes running on one of our computers at a specific point of time and then simulating them in our environment.
 Below are 3 different visualizations of our scheduler as it runs tasks and reinserts them back into the Red Black Tree. In order, they show which nodes are Red or Black, the priorities (highest priority means lightest green), and the relative log of virtual time ran (lower vtime means more red). In our sample visualizations, we are not adding processes as the processes are based off a sampling of processes running on Nick Steelman’s computer shortly after completing the different types of visualization.
-[Vis 1](./rb0.gif) [Vis 2](./rb1.gif) [Vis 3](./rb2.gif)
+![Vis 1](./rb0.gif) ![Vis 2](./rb1.gif) ![Vis 3](./rb2.gif)
 ## Learning Goals
 Through working on this project, we as a collective had a few main goals, with individual goals varying. All were achieved at the conclusion of the project. These goals are:
 - **Understand the C language better**
@@ -77,7 +77,7 @@ After researching current visualization libraries in C, it was determined the on
 
 Using this node as a start, the entire tree was visualized. The different color schemes implemented were based around node color, vtime, and priority. We implemented them because we wanted to better visualize those three concepts more. In order to change the colorings, a user must edit the MODE constant set in our main.c function. In order to see the tree with red or black nodes, MODE should be 0. If a gradient based on priorities is desired, change MODE to 1. If a gradient based on vtime is desired, MODE should be set to 2.
 The color of a node in MODE 2  is determined by the following equation:
-[p = log10(V-MIN)/log10(MAX-MIN)](./equation.png)
+![p = log10(V-MIN)/log10(MAX-MIN)](./equation.png)
 Where V is the vtime of any given task, MIN is the minimum vtime of any task in the tree, and MAX is the maximum vtime of any task in the tree. The constrains p to be between 0 and 1.
 The red value of the node is 1-p while the green is p.
 
