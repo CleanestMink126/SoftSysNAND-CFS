@@ -62,7 +62,7 @@ struct node* generate_task(int num_tasks, double min_vtime){
 We implemented tasks as a struct with variables such as pid, state, priority, and virtual runtime. We created functions to deal with these tasks by generating them, manipulating their properties, and also checking their virtual runtime to make sure that their runtime do not exceed their lifetime. Our main function consists of a while loop that basically generates tasks in a way that arrival time is exponentially distributed via using srandom(). Each time new task gets generated, it is inserted into red-black tree, which sorts the tasks to run task with least virtual runtime. All these processes are visualized using C.
  
 #### Red Black Tree
-As a base to implement a Red Black Tree, we fixed and adapted some significantly flawed code online that outlined the base structure for a Red Black Tree and (incorrectly) implemented insert. We fixed the insert function as well as created the delete minimum and check valid
+As a base to implement a Red Black Tree, we fixed and adapted some significantly flawed code online that outlined the base structure for a Red Black Tree and (incorrectly) implemented insert. We fixed the insert function as well as created the delete minimum and check valid functions.
  
 #### Visualization
 After researching current visualization libraries in C, it was determined the only two relatively good non-deprecated libraries were GTK and Cairo. GTK already breaks down the different functions a fair amount, where the only function that matters when drawing is the do_drawing function. From here, we broke down this function so that it set up the drawing environment, performed the next tree operation, and then drew the tree post-operation. 
@@ -83,10 +83,10 @@ Thanks to Allen, we were guided to implement exponential distribution of arrival
 -What to visualize when (node color vs. vtime vs. priority)
  
 ## Outcome(MVP)
-- Overall, our project turned out very well and was at the upper bound or arguably exceeded what we identified in the proposal. As stated in the initial goals, we set out to make a red/black tree, use the red/black tree to keep track of the current processes, and then visualize the tree. We extended the project by learning more about how to best distribute the processes as well as making multiple additional ways to color the tree in the visualization.
+Overall, our project turned out very well and was at the upper bound or arguably exceeded what we identified in the proposal. As stated in the initial goals, we set out to make a red/black tree, use the red/black tree to keep track of the current processes, and then visualize the tree. We extended the project by learning more about how to best distribute the processes as well as making multiple additional ways to color the tree in the visualization.
 
-- When looking back at our learning goals, we realized that we successfully hit all of our individual goals in conjunction with the team goals. More about the learning goals can be read in the learning goals section.
+When looking back at our learning goals, we realized that we successfully hit all of our individual goals in conjunction with the team goals. More about the learning goals can be read in the learning goals section.
 
-- In the end, we are happy with our final deliverable. We met our learning goals, produced a cool project that we can readily demonstrate, and enjoyed our time making it.
+In the end, we are happy with our final deliverable. We met our learning goals, produced a cool project that we can readily demonstrate, and enjoyed our time making it.
 
 
