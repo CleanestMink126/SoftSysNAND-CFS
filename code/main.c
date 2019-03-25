@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
   FONT = "Purisa";
   HEIGHT_CONSTANT = 6.0;
   TEXT_DISTANCE = 0.5;
-  MODE = 2;
+  MODE = 0;
   RED[0] = 0.69;
   RED[1] = 0.19;
   RED[2] = 0.0;
@@ -43,6 +43,7 @@ int main(int argc, char *argv[])
   gtk_window_set_title(GTK_WINDOW(window), "RB Tree Demonstration");
   g_timeout_add(LOOP_WAIT, (GSourceFunc) time_handler, (gpointer) window);
   gtk_widget_show_all(window);
+  
   //Set random seed
   srand(time(0));
 

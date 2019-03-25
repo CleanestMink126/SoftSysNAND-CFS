@@ -3,10 +3,8 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
-// #include "all.h"
 
 //Structure definitions
-
 struct {
   gushort count;
 } glob;
@@ -27,11 +25,11 @@ double MEAN_ALLOT;
 double STD_ALLOT;
 
 
-
 //Color declarations; instantiated in Main function
 double RED[3];
 double BLACK[3];
 double WHITE[3];
+
 
 //Global variables
 struct node *ROOT;
@@ -39,8 +37,6 @@ struct node *MIN;
 int NUM_OF_TASKS;
 int GENERATE_NEW_TASKS;
 double MAX_VTIME;
-
-
 
 
 // Function declarations

@@ -1,6 +1,6 @@
 // C program for Red-Black Tree insertion
 //Adapted from https://gist.github.com/VictorGarritano/5f894be162d39e9bdd5c
-//I did a good amount of adjustment because the code was wrong
+
 #include "all.h"
 
 void print_node(struct node *n){

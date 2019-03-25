@@ -37,7 +37,8 @@ void set_task_color_1(struct node* n){
  	n->priority_color[2] = arr[2];
 }
 
-/* fucntion for generating tastruct node generate_task(){sk to be processed */
+/* fucntion for generating task to be processed
+ struct node generate_task(){ */
 struct node* generate_task(int num_tasks, double min_vtime){
 
   double Ndistribute;
@@ -55,14 +56,6 @@ struct node* generate_task(int num_tasks, double min_vtime){
   return new_task;
 }
 
-
-/* DEPRECATED function that adds task to queue once generated*/
-void add_task(struct node *p, struct node a, int * num_tasks){
-  if ( *num_tasks < MAX_TASKS){
-    p[*num_tasks] = a;
-    *num_tasks += 1;
-  }
-}
 
 /* fucntion that increments virtual runtime of certain task if it is ran
 Returns: whether or not the task had ended
