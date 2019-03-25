@@ -1,28 +1,10 @@
 #include "graphics.h"
-
+#include "all.h"
 
 int count = 0;
 int curr_number = 0;
 double curr_x = 0;
 double curr_y = 0;
-
-/*
-Color object making method. No current color delete method.
-Inputs:
-double r (red value on scale of 0-1)
-double b (blue value on scale of 0-1)
-double g (green value on scale of 0-1)
-
-Returns: A pointer to a color allocated in the heap
-*/
-Color *make_color(double r, double b, double g){
-  Color *c = malloc(sizeof(Color));
-  c->r = r;
-  c->g = g;
-  c->b = b;
-  return c;
-}
-
 
 /*
 GTK function that I believe is necessary. May be able to kill but not vocused on that.
@@ -33,7 +15,7 @@ gpointer user_data (unclear if necessary)
 
 Returns: gboolean (FALSE)
 */
-static gboolean on_draw_event(GtkWidget *widget, cairo_t *cr, gpointer user_data) {
+gboolean on_draw_event(GtkWidget *widget, cairo_t *cr, gpointer user_data) {
   do_drawing(cr, widget);
   return FALSE;
 }
@@ -41,18 +23,33 @@ static gboolean on_draw_event(GtkWidget *widget, cairo_t *cr, gpointer user_data
 
 /*
 Helper function to set the color based on the color of a node (a char in, R/B).
+Uses the global MODE to determine how to color nodes
 Inputs:
 cairo_t *cr
 char color_in
 
 Returns: void
 */
-static void set_color(cairo_t *cr, char color_in){
-  if(color_in == 'R'){
-    cairo_set_source_rgb(cr, RED->r, RED->g, RED->b);
-  }
-  else {
-    cairo_set_source_rgb(cr, BLACK->r, BLACK->g, BLACK->b);
+static void set_color(cairo_t *cr, struct node* n){
+  double min_val;
+  double p;
+  switch(MODE){
+    case 0:
+      if(n->color == 'R'){
+        cairo_set_source_rgb(cr, RED[0], RED[1], RED[2]);
+      }
+      else {
+        cairo_set_source_rgb(cr, BLACK[0], BLACK[1], BLACK[2]);
+      }
+      break;
+    case 1:
+      cairo_set_source_rgb(cr, n->priority_color[0], n->priority_color[1], n->priority_color[2]);
+      break;
+    case 2:
+      min_val = MIN->vtime;
+      p = (log10(n->vtime - min_val) / log10(MAX_VTIME-min_val));
+      cairo_set_source_rgb(cr, 1.0 - p, p, 0.0);
+      break;
   }
 }
 
@@ -71,8 +68,9 @@ static void draw_line(GtkWidget *widget, cairo_t *cr, int direction, struct node
   cairo_move_to (cr, 0, 0);
   int xmove, xrel;
 
-  set_color(cr, root->color);
+  set_color(cr, root);
 
+  //Figure out what direction from the root node you will go to your child
   if(direction == 0){
     xmove = -CIRCLE_HEIGHT;
     xrel = -curr_x;
@@ -82,9 +80,9 @@ static void draw_line(GtkWidget *widget, cairo_t *cr, int direction, struct node
     xrel = curr_x;
   }
 
+  //Move and draw your line
   cairo_move_to(cr, xmove, 0);
   cairo_rel_line_to(cr, xrel, (int) CIRCLE_HEIGHT * HEIGHT_CONSTANT);
-
   cairo_set_line_width (cr, BRANCH_WIDTH);
   cairo_stroke(cr);
   cairo_fill(cr);
@@ -102,26 +100,30 @@ struct node* root (node whose text is to be displayed)
 Returns: void
 */
 static void circle_text(GtkWidget *widget, cairo_t *cr, struct node* root){
-
+  //Set color (opposite of node color)
   if(root->color == 'B'){
-    cairo_set_source_rgb(cr, RED->r, RED->g, RED->b);
+    cairo_set_source_rgb(cr, RED[0], RED[1], RED[2]);
   }
   else {
-    cairo_set_source_rgb(cr, BLACK->r, BLACK->g, BLACK->b);
+    cairo_set_source_rgb(cr, BLACK[0], BLACK[1], BLACK[2]);
   }
 
+  //Set the strings you want
   char id[7] = "";
   char vtime[7] = "";
   snprintf(id, sizeof(id), "%d", root->pid);
   snprintf(vtime, sizeof(vtime), "%.1f", root->vtime);
 
+  //Proint the first string
   cairo_translate(cr, -TEXT_DISTANCE*CIRCLE_HEIGHT, 0);
   cairo_show_text(cr, id);
   cairo_fill(cr);
 
+  //Print the second string
   cairo_translate(cr, 0, FONT_SIZE);
   cairo_show_text(cr, vtime);
   cairo_fill(cr);
+  //Go back to the initial location
   cairo_translate(cr,  TEXT_DISTANCE*CIRCLE_HEIGHT, -FONT_SIZE);
 }
 
@@ -135,7 +137,7 @@ struct node* root (node to be drawn)
 Returns: void
 */
 static void draw_circle(GtkWidget *widget, cairo_t *cr, struct node* root){
-  set_color(cr, root->color);
+  set_color(cr, root);
   cairo_arc(cr, 0, 0, CIRCLE_HEIGHT, 0, 2 * M_PI);
   cairo_stroke_preserve(cr);
   cairo_fill(cr);
@@ -207,7 +209,7 @@ GtkWidget *widget
 
 Returns: void
 */
-static void do_drawing(cairo_t *cr, GtkWidget *widget) {
+void do_drawing(cairo_t *cr, GtkWidget *widget) {
   //Background setup and variable creation
   GtkWidget *win = gtk_widget_get_toplevel(widget);
   struct node* temp = ROOT;
@@ -223,11 +225,47 @@ static void do_drawing(cairo_t *cr, GtkWidget *widget) {
   cairo_set_line_width(cr, LINE_WIDTH);
 
   //Paint over any prior background
-  cairo_set_source_rgb (cr, WHITE->r, WHITE->g, WHITE->b);
+  cairo_set_source_rgb (cr, WHITE[0], WHITE[1], WHITE[2]);
   cairo_paint (cr);
 
+  struct node* n;
+  int put_back = 1;
+
+  n = delete_min(&ROOT, &MIN);
+  printf("PID:%i    Vtime:%lf\n",n -> pid, n ->vtime);
+  put_back = 1;
+  while(n -> vtime <= MIN -> vtime){
+    puts("Increment\n");
+    double time_ran = generate_Ndistribute_random(MEAN_ALLOT, STD_ALLOT);
+    if(time_ran > 1.0){
+      time_ran = 1.0;
+    }
+    if (increment_vtime(n,time_ran)){
+      put_back = 0;
+      break;
+    }//I didnt decrement the number of nodes cause it causes PID collisions
+    int prob = rand() % 4;
+    if (prob == 0 && GENERATE_NEW_TASKS && NUM_OF_TASKS < MAX_TASKS){
+      struct node* b = generate_task(NUM_OF_TASKS, MIN -> vtime);
+      insert(&ROOT, &MIN, b);
+      printf("lifetime: %f \n", n->lifetime);
+      NUM_OF_TASKS++;
+    }
+  }
+  if(put_back){
+    if(MODE == 2 && n->vtime > MAX_VTIME){
+      MAX_VTIME = n->vtime;
+    }
+    insert(&ROOT, &MIN, n);
+    printf("Put back\n");
+  }else{
+    printf("Terminated\n");
+  }
+  printf("PID:%i    Vtime:%lf\n",n -> pid, n ->vtime);
+  printf("-----------------\n");
+
   //Recursively do the drawing that we want
-  drawing_recursive(cr, widget, temp);
+  drawing_recursive(cr, widget, ROOT);
 }
 
 
@@ -237,44 +275,10 @@ Inputs: GTKWidget widget
 
 Returns: a gboolean
 */
-static gboolean time_handler(GtkWidget *widget)
+gboolean time_handler(GtkWidget *widget)
 {
   glob.count += 1;
   gtk_widget_queue_draw(widget);
 
   return TRUE;
-}
-
-int main(int argc, char *argv[])
-{
-
-  GtkWidget *window;
-  GtkWidget *darea;
-  RED = make_color(0.69, 0.19, 0.0);
-  BLACK = make_color(0.0, 0.0, 0.0);
-  WHITE = make_color(1.0, 1.0, 1.0);
-  ROOT = build_tree();
-
-  glob.count = 0;
-
-  gtk_init(&argc, &argv);
-
-  window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-
-  darea = gtk_drawing_area_new();
-  gtk_container_add(GTK_CONTAINER (window), darea);
-
-  g_signal_connect(G_OBJECT(darea), "draw", G_CALLBACK(on_draw_event), NULL);
-  g_signal_connect(G_OBJECT(window), "destroy", G_CALLBACK(gtk_main_quit), NULL);
-
-  gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
-  gtk_window_set_default_size(GTK_WINDOW(window), WINDOW_SIZE, WINDOW_SIZE);
-  gtk_window_set_title(GTK_WINDOW(window), "RB Tree Demo");
-
-  g_timeout_add(LOOP_WAIT, (GSourceFunc) time_handler, (gpointer) window);
-  gtk_widget_show_all(window);
-
-  gtk_main();
-
-  return 0;
 }
