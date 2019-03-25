@@ -5,18 +5,24 @@ Software Systems
 ## Goal
 Our project goal was to make and visualize a simplified version of the Linux Scheduler. We aimed to accomplish this goal by making a red black tree in C, creating a task simulation environment around it, and visualizing the tree at every step. 
 After prototyping the display, we went back and made the processes created more realistic by getting a set of all processes running on one of our computers at a specific point of time and then simulating them in our environment.
+ Below are 3 different visualizations of our sc
  
 ## Learning Goals
 Through working on this project, we as a collective had a few main goals, with individual goals varying. All were achieved at the conclusion of the project. These goals are:
-- **Understand the C language better.**
+- **Understand the C language better**
+ 
 We understand that we haven’t had an incredibly large amount of time to learn the C language, especially as most of our first in-depth exposure has come from Software Systems. Therefore, this project gave us an opportunity to better understand the language outside of the perspective of problem sets.
 - **Practice C programming**
+ 
 Similar to understanding the C language better, we wanted to practice C programming and the different conventions that differ from other languages we know, especially Java and Python. Through making a nontrivial project from scratch, we are solidified more of the C standards of programming and became more accustomed to coding in C.
 - **Understand better how schedulers work**
+ 
 Something the three of us were curious about was how scheduling works in operating systems, as we know that processes all get different amounts of time to process data and that not all processes actually run simultaneously on the hardware. Therefore, we spent time understanding how schedulers actually work in order to implement one.
 - **Understanding how red/black tree algorithm optimizes work done by the CPU**
+ 
 In understanding schedulers, we learned that the C language implements its scheduler through a red-black tree. Therefore, we needed to expand our knowledge into understanding red/black trees as well. Nick Steelman already was very well acquainted with the topic as a Data Structures and Algorithms instructor who had given the lecture on red/black trees, and he used his knowledge to help the other two better understand red/black trees.
 - **Practice Visualization and learn Visualization in C**
+ 
 The final goal of the project was to practice visualization of software and to learn how to visualize in C. Visualization is run  using GTK and the Cairo library. Before this, none of us had experience in visualization in C, so we performed research in order to figure out how to accomplish what we wanted.
  
 ## Resources
