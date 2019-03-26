@@ -75,9 +75,9 @@ As a base to implement a Red Black Tree, we fixed and adapted some significantly
 #### Visualization
 After researching current visualization libraries in C, it was determined the only two relatively good non-deprecated libraries were GTK and Cairo. GTK already breaks down the different functions a fair amount, where the only function that matters when drawing is the do_drawing function. From here, we broke down this function so that it set up the drawing environment, performed the next tree operation, and then drew the tree post-operation. GTK does not play the best with passing parameters around, so we had to create a global variable that always pointed to the root of the red black tree.
 
-Using this node as a start, the entire tree was visualized. The different color schemes implemented were based around node color, vtime, and priority. We implemented them because we wanted to better visualize those three concepts more. In order to change the colorings, a user must edit the MODE constant set in our main.c function. In order to see the tree with red or black nodes, MODE should be 0. If a gradient based on priorities is desired, change MODE to 1. If a gradient based on vtime is desired, MODE should be set to 2.
-The color of a node in MODE 2  is determined by the following equation:
-![p = log10(V-MIN)/log10(MAX-MIN)](./equation.png)
+Using this node as a start, the entire tree was visualized. The different color schemes implemented were based around node color, vtime, and priority. We implemented them because we wanted to better visualize those three concepts more. In order to change the colorings, a user must edit the MODE constant set in our main.c function. In order to see the tree with red or black nodes, MODE should be 0. If a gradient based on priorities is desired, change MODE to 1. If a gradient based on vtime is desired, MODE should be set to 2.  
+The color of a node in MODE 2  is determined by the following equation:  
+<img src="./equation.png" alt="p = log10(V-MIN)/log10(MAX-MIN)" width="250">  
 Where V is the vtime of any given task, MIN is the minimum vtime of any task in the tree, and MAX is the maximum vtime of any task in the tree. The constrains p to be between 0 and 1.
 The red value of the node is 1-p while the green is p.
 
