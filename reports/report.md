@@ -4,9 +4,11 @@ Software Systems
 
 ## Goal
 Our project goal was to make and visualize a simplified version of the Linux Scheduler. We aimed to accomplish this goal by making a red black tree in C, creating a task simulation environment around it, and visualizing the tree at every step.
+
 After prototyping the display, we went back and made the processes created more realistic by getting a set of all processes running on one of our computers at a specific point of time and then simulating them in our environment.
+
 Below are 3 different visualizations of our scheduler as it runs tasks and reinserts them back into the Red Black Tree. In order, they show which nodes are Red or Black, the priorities (highest priority means lightest green), and the relative log of virtual time ran (lower vtime means more red). In our sample visualizations, we are not adding processes as the processes are based off a sampling of processes running on Nick Steelman’s computer shortly after completing the different types of visualization.
-![Vis 1](./rb0.gif) ![Vis 2](./rb1.gif) ![Vis 3](./rb2.gif)
+[Vis 1](./rb0.gif) [Vis 2](./rb1.gif) [Vis 3](./rb2.gif)
 ## Learning Goals
 Through working on this project, we as a collective had a few main goals, with individual goals varying. All were achieved at the conclusion of the project. These goals are:
 - **Understand the C language better**
@@ -48,6 +50,7 @@ Since our project is easily divided into 3 parts, our resources are divided into
 There were three main branches of implementation in the project which were task management, the red/black tree, and visualization.
 #### Task Management
 We implemented tasks as a struct with variables such as pid, state, priority, and virtual runtime. We created functions to deal with these tasks by generating them, manipulating their properties, and also checking their virtual runtime to make sure that their runtime do not exceed their lifetime. Our main function consists of a while loop that basically generates tasks in a way that arrival time is exponentially distributed via using srandom(). Each time new task gets generated, it is inserted into red-black tree, which sorts the tasks to run task with least virtual runtime. All these processes are visualized using C.
+
 Below is the code of function that generates new task in form of struct. As you can see below, each task is given random priority value. Also, there is a local Ndistribute variable that contains log normally distributed random number that gets assigned to lifetime of generated task. The way we access certain task among all other tasks is by its pid value, which is defined by num_tasks that keeps track of tasks in the list that contains pointers to all the tasks.
 
 ```c
@@ -70,7 +73,7 @@ struct node* generate_task(int num_tasks, double min_vtime){
 ```
 
 #### Red Black Tree
-As a base to implement a Red Black Tree, we fixed and adapted some significantly flawed code online that outlined the base structure for a Red Black Tree and (incorrectly) implemented insert. We fixed the insert function as well as created the delete minimum and check valid functions. This way, we can always get the task with the lowest vtime and check that our completed code works. The noe structure created for task management was edited slightly in order to work as the red black tree nodes, but the core information was contained in the same way.
+As a base to implement a Red Black Tree, we fixed and adapted some significantly flawed code online that outlined the base structure for a Red Black Tree and (incorrectly) implemented insert. We fixed the insert function as well as created the delete minimum and check valid functions. This way, we can always get the task with the lowest vtime and check that our completed code works. The node structure created for task management was edited slightly in order to work as the red black tree nodes, but the core information was contained in the same way.
 
 #### Visualization
 After researching current visualization libraries in C, it was determined the only two relatively good non-deprecated libraries were GTK and Cairo. GTK already breaks down the different functions a fair amount, where the only function that matters when drawing is the do_drawing function. From here, we broke down this function so that it set up the drawing environment, performed the next tree operation, and then drew the tree post-operation. GTK does not play the best with passing parameters around, so we had to create a global variable that always pointed to the root of the red black tree.
@@ -95,7 +98,7 @@ Our goal was to implement Linux Completely Fair Scheduler from scratch and given
 Thanks to Allen, we were guided to implement exponential distribution of arrival time of tasks and log normal distribution of lifetime of tasks. Considering exponentially distributed arrival time, we used random function in C to generate task only under certain probability (¼ in our case) for each loop. For log normal distribution of lifetime of tasks, we made use of a source code found from online that takes mean and standard variation to produce random normally distributed numbers.
 - **Visualization**
 In deciding what to visualize, we chose the numbers unique to the task that were most readily available to us, i.e. their color, priority, and current vtime. For priority and current vtime we chose to vary the gradient of green and red as those were the easiest to compute (as opposed to a non-primary) and were the easiest to see differences between nodes.
-## Outcome(MVP)
+## Outcome
 Overall, our project turned out very well and was at the upper bound or arguably exceeded what we identified in the proposal. As stated in the initial goals, we set out to make a red/black tree, use the red/black tree to keep track of the current processes, and then visualize the tree. We extended the project by learning more about how to best distribute the processes as well as making multiple additional ways to color the tree in the visualization.
 
 When looking back at our learning goals, we realized that we successfully hit all of our individual goals in conjunction with the team goals. More about the learning goals can be read in the learning goals section.
