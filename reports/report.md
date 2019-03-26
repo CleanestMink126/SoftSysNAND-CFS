@@ -79,9 +79,7 @@ Our goal was to implement Linux Completely Fair Scheduler from scratch and given
 - **Workload simulation**
 Thanks to Allen, we were guided to implement exponential distribution of arrival time of tasks and log normal distribution of lifetime of tasks. Considering exponentially distributed arrival time, we used random function in C to generate task only under certain probability (¼ in our case) for each loop. For log normal distribution of lifetime of tasks, we made use of a source code found from online that takes mean and standard variation to produce random normally distributed numbers.
 - **Visualization**
-In deciding what to visualize, we chose the numbers unique to the task that were most readily available to us, i.e. their color, priority, and current vtime. For priority and current vtime we chose to vary the gradient of green and red as those were the easiest to compute (as opposed to a non-primary) and were the easiest to see differences between nodes.
-
-We could have done some visualizations around IO use and lifetime, but IO use would require more overscoping and lifetime  likely would not yield any interesting results.
+In deciding what to visualize, we chose the numbers unique to the task that were most readily available to us, i.e. their color, priority, and current vtime. For priority and current vtime we chose to vary the gradient of green and red as those were the easiest to compute (as opposed to a non-primary) and were the easiest to see differences between nodes. We could have done some visualizations around IO use and lifetime, but IO use would require more overscoping and lifetime  likely would not yield any interesting results.
 
 ## Resources
 Since our project is easily divided into 3 parts, our resources are divided into the same categories:
