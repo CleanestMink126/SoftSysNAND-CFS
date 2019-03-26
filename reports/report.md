@@ -71,7 +71,7 @@ One thing that hasn’t been mentioned yet is how interesting it can be to compi
 ```make
 gcc `pkg-config --cflags gtk+-3.0` -c graphics.c -lm `pkg-config --libs gtk+-3.0`
 ```
-As such, we had to be careful that we were always compiling correctly when compiling our code. Overall, we ran into relatively few issues around this as we maintained careful makefile practice.
+As such, we had to be careful that we were always compiling correctly when compiling our code due to the pakage configurations that needed to be addressed when using gtk. Overall, we ran into relatively few issues around this as we maintained careful makefile practice.
 
 ## Design decisions
 - **Do not overscope (too much)**
